@@ -21,6 +21,8 @@ const RegisterCard = () => {
     const [dateOfBirth, setDateOfBirth] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [correo, setCorreo] = useState('');
+    // Agregar un nuevo estado para el género
+    const [gender, setGender] = useState('');
 
     const handleRegister = (e) => {
         e.preventDefault();
@@ -122,6 +124,7 @@ const RegisterCard = () => {
                         <LabelText text="Apellidos:" id="text-pc" />
                         <LabelText text="Fecha de Nacimiento:" id="text-pc" />
                         <LabelText text="Correo Electrónico:" id="text-pc" />
+                        <LabelText text="Género:" id="text-pc" />
                     </div>
                     <div className='col-md-6 mt-3'>
                         <LabelText text="Foto de Perfil:" id="text-mb" />
@@ -142,6 +145,13 @@ const RegisterCard = () => {
                         <InputText type="date" name="date" id="date" value={dateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)} />
                         <LabelText text="Correo electronico:" id="text-mb" />
                         <InputText type="text" name="correo" id="correo" value={correo} onChange={(e) => setCorreo(e.target.value)} />
+                        
+                        <select className='Combo-Box' value={gender} onChange={(e) => setGender(e.target.value)}>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Femenino">Femenino</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+
                     </div>
                     <div className='col-md-12 text-center mb-3 mt-5'>
                         <ButtonSubmit type="submit" name="btn_submit" id="btn_submit" value="Registrarse" />
