@@ -1,3 +1,4 @@
+/* label_text.jsx */
 import React from 'react';
 import '../css/login.css'
 
