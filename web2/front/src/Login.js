@@ -1,9 +1,17 @@
-// Login.js
+// ESTO NO ESTA CONENCTADO A NINGUN LADO :(
 
 import React from 'react';
 import './Login.css'; // Importa el archivo CSS
 import imagenIzquierda from './img/Vacio.png'; // Importa la imagen izquierda
 import imagenDerecha from './img/Usuario.png'; // Importa la imagen derecha
+import { useNavigate  } from 'react-router-dom';
+
+
+function handleRegisterClick() {
+  const history = useNavigate();
+  history('/register');
+}
+
 
 function Login() {
   return (
@@ -51,7 +59,7 @@ function Login() {
           
                   {/* BOTONES */}
                   <button type="submit" className="btn btn-primary me-2">Iniciar Sesión</button>
-                  <button type="button" className="btn btn-secondary">Registro</button>
+                  <button type="button" className="btn btn-secondary" onClick={handleRegisterClick}>Registro</button>
                 </form>
           
               </div>
