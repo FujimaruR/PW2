@@ -35,7 +35,7 @@ const LoginCard = () => {
         console.log(response);
         localStorage.setItem('userData', JSON.stringify(username));
         alert("Se ha iniciado sesión correctamente")
-        navigate('/home');
+        navigate('/LandingPage');
       })
       .catch((error) => {
         console.error(error);
@@ -56,7 +56,7 @@ const LoginCard = () => {
     const userData = localStorage.getItem('userData');
 
     if (userData) {
-      navigate('/home');
+      navigate('/LandingPage');
     }
   }, [navigate]);
 

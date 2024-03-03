@@ -65,7 +65,7 @@ const RegisterCard = () => {
             alert("Usuario registrado con éxito.");
 
             localStorage.setItem('userData', JSON.stringify(username));
-            navigate('/home');
+            navigate('/LandingPage');
 
 
         })
@@ -84,7 +84,7 @@ const RegisterCard = () => {
         // Redirige al usuario a la página de inicio si ya está registrado
         const userData = JSON.parse(localStorage.getItem('userData'));
         if (userData) {
-            navigate('/home');
+            navigate('/LandingPage');
         }
     }, []);
 
