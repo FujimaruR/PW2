@@ -122,7 +122,8 @@ const RegisterCard = () => {
                         <LabelText text="Nombre de usuario:" id="text-pc" />
                         <LabelText text="Contraseña:" id="text-pc" />
                         <LabelText text="Nombre:" id="text-pc" />
-                        <LabelText text="Apellidos:" id="text-pc" />
+                        <LabelText text="Apellido Paterno:" id="text-pc" />
+                        <LabelText text="Apellido Materno:" id="text-pc" />
                         <LabelText text="Fecha de Nacimiento:" id="text-pc" />
                         <LabelText text="Correo Electrónico:" id="text-pc" />
                         <LabelText text="Género:" id="text-pc" />
@@ -142,8 +143,18 @@ const RegisterCard = () => {
                         <InputText type="password" name="pass" id="pass" value={password} onChange={(e) => setPassword(e.target.value)} />
                         <LabelText text="Nombre:" id="text-mb" />
                         <InputText type="text" name="name" id="name" value={name} onChange={(e) => setName(e.target.value)} />
-                        <LabelText text="Apellidos:" id="text-mb" />
+
+                        
+                          {/*Agregué el apellido paterno y materno */}
+                        {/*Aguas a la hora de mandar a la BD */}
+
+
+                        <LabelText text="Apellido Paterno:" id="text-mb" />
                         <InputText type="text" name="lastname" id="lastname" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+
+                        <LabelText text="Apellido Materno:" id="text-mb" />
+                        <InputText type="text" name="lastname" id="lastname" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+
                         <LabelText text="Fecha de Nacimiento:" id="text-mb" />
                         <InputText type="date" name="date" id="date" value={dateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)} />
                         <LabelText text="Correo electronico:" id="text-mb" />
@@ -158,7 +169,7 @@ const RegisterCard = () => {
                     </div>
                     <div className='col-md-12 text-center mb-3 mt-5'>
                         <ButtonSubmit type="submit" name="btn_submit" id="btn_submit" value="Registrarse" />
-                    </div>
+                    </div>|
                     {errorMessage && <div className="col-md-12 text-center text-danger">{errorMessage}</div>}
                 </form>
             </div>
