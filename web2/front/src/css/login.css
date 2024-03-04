@@ -162,3 +162,16 @@ body
     height: 100vh;
     margin: 0;
 }
+
+
+.Combo-Box{
+    border-radius: 30px;
+    max-width: 360px;
+    width: 100%;
+    min-height: 25px;    
+    max-height: 25px;
+    background-color:#375560;
+    border: solid white 1px;
+    color: white;
+    box-shadow: -10px 2px 1px rgba(0, 0, 0, 0.3);   
+}
