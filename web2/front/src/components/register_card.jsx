@@ -130,9 +130,11 @@ const RegisterCard = () => {
                     <div className='col-md-6 mt-3'>
                         <LabelText text="Foto de Perfil:" id="text-mb" />
                         <div className='d-flex justify-content-center align-items-center'>
-                            <label htmlFor="img" style={{ cursor: 'pointer' }} className='d-flex justify-content-center align-items-center'>
-                                <img src={imagenPerfil ? imagenPerfil : img3} style={{ width: '65%', height: 'auto' }} className='mb-3' />
-                            </label>
+
+                        <label htmlFor="img" style={{ cursor: 'pointer', minWidth: '45%' }} className='d-flex justify-content-center align-items-center'>
+                         <img src={imagenPerfil ? imagenPerfil : img3} style={{ width: '50%', height: 'auto' }} className='mb-3' />
+                        </label>
+
                         </div>
                         <LabelText text="Nombre de usuario:" id="text-mb" />
                         <InputText type="text" name="user" id="user" value={username} onChange={(e) => setUsername(e.target.value)} />
