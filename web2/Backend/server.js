@@ -51,16 +51,23 @@ app.post("/login",
 app.post("/register", (req, resp) => {
     const nombre = req.body.nombre;
     const apellidoP = req.body.apellidoP;
-    const apellidoM = req.body.apellidoM;
     const fechaNacimiento = req.body.fechaNacimiento;
     const genero = req.body.genero;
     const correo = req.body.correo;
     const usuario = req.body.usuario;
     const contraseña = req.body.contraseña;
+    const imagenPerfil = req.body.imagenPerfil;
+
+    console.log(imagenPerfil);
 
     // Verifica la longitud de la contraseña
     if (contraseña.length < 6) {
         resp.status(400).send("La contraseña debe tener al menos 6 caracteres.");
+        return;
+    }
+
+    if (!/[A-Z]/.test(contraseña) || !/\d/.test(contraseña)) {
+        resp.status(400).send("La contraseña debe contener al menos una mayúscula y un número.");
         return;
     }
 
@@ -72,7 +79,7 @@ app.post("/register", (req, resp) => {
 
     // Llama al procedimiento almacenado sp_AltaUsuario
     db.query('CALL sp_AltaUsuario(?, ?, ?, ?, ?, ?, ?, ?)',
-        [nombre, apellidoP, apellidoM, fechaNacimiento, genero, correo, usuario, contraseña],
+        [nombre, apellidoP, fechaNacimiento, genero, correo, usuario, contraseña, imagenPerfil],
         (err, data) => {
             if (err) {
                 console.log(err);

@@ -50,15 +50,14 @@ const RegisterCard = () => {
             contraseña: password,
             nombre: name,
             apellidoP: lastName,
-            // Apellido 2, es necesario agregarlo
-            apellidoM: "Apellido Harcodeado",
             fechaNacimiento: dateOfBirth,
             // Aqui iria el genero.
             genero: "Maculino",
             // Aqui es lo de la imagen WIP 
             imagenPerfil: imagenPerfil,
             // Aqui el correo, este debe ser unico asi que no puede quedarse hardcodeado, se agrega una nueva linea abajo y ya. 
-            correo: correo
+            correo: correo,
+            imagenPerfil: imagenPerfil
         })
         .then((response) => {
             console.log(response);
@@ -94,7 +93,9 @@ const RegisterCard = () => {
         const reader = new FileReader();
 
         reader.onload = () => {
-            setImagenPerfil(reader.result);
+            const base64Image = reader.result;
+            console.log(base64Image); 
+            setImagenPerfil(base64Image);
         };
 
         if (archivo) {
