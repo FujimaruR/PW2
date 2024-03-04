@@ -22,7 +22,7 @@ const RegisterCard = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [correo, setCorreo] = useState('');
     // Agregar un nuevo estado para el género
-    const [gender, setGender] = useState('');
+    const [gender, setGender] = useState('Masculino');
 
     const handleRegister = (e) => {
         e.preventDefault();
@@ -36,6 +36,23 @@ const RegisterCard = () => {
         // Validar que la contraseña tenga una longitud mínima
         if (password.length < 6) {
             setErrorMessage('La contraseña debe tener al menos 6 caracteres.');
+            return;
+        }
+
+        if (!/[A-Z]/.test(password) || !/\d/.test(password)) {
+            setErrorMessage("La contraseña debe contener al menos una mayúscula y un número.");
+            return;
+        }
+
+        const currentDate = new Date();
+        const selectedDate = new Date(dateOfBirth);
+        if (selectedDate >= currentDate) {
+            setErrorMessage('La fecha de nacimiento debe ser anterior a la fecha actual.');
+            return;
+        }
+
+        if (!correo.includes('@') || !correo.includes('.com')) {
+            setErrorMessage('Por favor, introduce un correo electrónico válido.');
             return;
         }
 
@@ -54,12 +71,11 @@ const RegisterCard = () => {
             apellidoP: lastName,
             fechaNacimiento: dateOfBirth,
             // Aqui iria el genero.
-            genero: "Maculino",
+            genero: gender,
             // Aqui es lo de la imagen WIP 
-            imagenPerfil: imagenPerfil,
+            //imagenPerfil: imagenPerfil,
             // Aqui el correo, este debe ser unico asi que no puede quedarse hardcodeado, se agrega una nueva linea abajo y ya. 
-            correo: correo,
-            imagenPerfil: imagenPerfil
+            correo: correo
         })
         .then((response) => {
             console.log(response);
@@ -96,7 +112,6 @@ const RegisterCard = () => {
 
         reader.onload = () => {
             const base64Image = reader.result;
-            console.log(base64Image); 
             setImagenPerfil(base64Image);
         };
 

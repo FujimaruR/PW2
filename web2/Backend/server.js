@@ -56,9 +56,6 @@ app.post("/register", (req, resp) => {
     const correo = req.body.correo;
     const usuario = req.body.usuario;
     const contraseña = req.body.contraseña;
-    const imagenPerfil = req.body.imagenPerfil;
-
-    console.log(imagenPerfil);
 
     // Verifica la longitud de la contraseña
     if (contraseña.length < 6) {
@@ -78,8 +75,8 @@ app.post("/register", (req, resp) => {
     }
 
     // Llama al procedimiento almacenado sp_AltaUsuario
-    db.query('CALL sp_AltaUsuario(?, ?, ?, ?, ?, ?, ?, ?)',
-        [nombre, apellidoP, fechaNacimiento, genero, correo, usuario, contraseña, imagenPerfil],
+    db.query('CALL sp_AltaUsuario(?, ?, ?, ?, ?, ?, ?)',
+        [nombre, apellidoP, fechaNacimiento, genero, correo, usuario, contraseña],
         (err, data) => {
             if (err) {
                 console.log(err);
