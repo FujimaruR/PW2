@@ -59,7 +59,7 @@ const RegisterCard = () => {
             imagenPerfil: imagenPerfil,
             // Aqui el correo, este debe ser unico asi que no puede quedarse hardcodeado, se agrega una nueva linea abajo y ya. 
             correo: correo,
-            imagenPerfil: imagenPerfil
+            //TODO: ESTO QUE ES? imagenPerfil: imagenPerfil
         })
         .then((response) => {
             console.log(response);
