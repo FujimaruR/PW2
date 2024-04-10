@@ -50,11 +50,12 @@
     height: 400px;
     overflow-y: auto;
     width: 100%;
-    column-gap: 145px;
+    column-gap: 10px;
 }
 
 .card{
     
     width: calc(33.3% - 20px );
-    background-color: #21212b !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
 }
