@@ -1,0 +1,235 @@
+.blackcard
+{
+    background-color: #141416;
+    border: solid white 1px;
+    border-radius: 25px;
+    box-shadow: -10px 2px 1px rgba(0, 0, 0, 0.3);
+    width: 65%;
+    min-width: 330px;
+    max-width: 1000px;
+    min-height: 400px;    
+}
+
+.black-card-creview
+{
+    background-color: #000000;
+    border: solid white 1px;
+    border-radius: 50px;
+    box-shadow: -10px 2px 1px rgba(0, 0, 0, 0.3);
+   /* width: 65%; */
+    min-width: 650px !important;
+    max-width: 650px !important;
+    min-height: 450px !important;
+}
+
+.img-review
+{
+    width: 80%;
+    height: auto;
+    border-radius: 20px;
+}
+
+.img-create-review
+{
+    width: 30%;
+    max-width: 300px;
+    height: auto;
+}
+
+.Title-review
+{
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+}
+
+.text-review
+{
+    font-weight: 100;    
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+}
+
+.link-review
+{
+    color: #8ac6c7;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+}
+
+.link-review:hover
+{
+    color: #00fbff;
+}
+
+.text-question
+{
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.create-review-t1
+{
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight:lighter;
+}
+
+.create-review-text1
+{
+    color: #b7b7b7;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight:lighter;
+    font-size: 15px;
+}
+
+.container-create-review
+{
+    background-color: #141416;
+    border: solid white 1px;
+    border-radius: 50px;
+    box-shadow: -10px 2px 1px rgba(0, 0, 0, 0.3);
+    width: 95% !important;
+    min-height: 300px !important;
+}
+
+.input-create-review
+{
+    border: solid white 1px;
+    border-radius: 20px;
+    box-shadow: -10px 2px 1px rgba(0, 0, 0, 0.3);
+    background-color: #2e4b4f;
+    width: 95%;
+    height: 75%;
+    color: #b7b7b7;
+    font-family: Arial, Helvetica, sans-serif;
+    resize: none;
+}
+
+.score-review
+{
+    border-bottom: solid white 1px;
+    background-color: #00000000;
+    width: 50px;
+    color: #b7b7b7;
+    font-family: Arial, Helvetica, sans-serif;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+.card-game-landing
+{
+    background-color: #141416;
+    border: solid white 1px;
+    border-radius: 20px;
+    box-shadow: -10px 2px 1px rgba(0, 0, 0, 0.3);
+    min-width: 250px !important;
+    max-width: 250px !important;
+    min-height: 350px !important;
+    /*max-height: 350px !important;*/
+}
+
+.card-game-2-landing
+{
+    background-color: #141416;
+    border: solid white 1px;
+    border-radius: 20px;
+    box-shadow: -10px 2px 1px rgba(0, 0, 0, 0.3);
+    min-width: 300px !important;
+    max-width: 300px !important;
+    min-height: 205px !important;
+    /*max-height: 350px !important;*/
+}
+
+.card-game-review
+{
+    background-color: #141416;
+    border: solid white 1px;
+    border-radius: 20px;
+    box-shadow: -10px 2px 1px rgba(0, 0, 0, 0.3);
+    /*min-width: 230px !important;
+    max-width: 230px !important;
+    min-height: 105px !important;*/
+    max-width: 330px !important;
+}
+
+.basic-text
+{
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.side-bar-games
+{
+    background-color: #2c2b3d;
+}
+
+.img-card-user
+{
+    background-color: #141416;
+    border: solid white 1px;
+    border-radius: 20px;
+    box-shadow: -10px 2px 1px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    height: auto;
+   /* min-width: 300px !important;
+    max-width: 300px !important;
+    min-height: 205px !important; */
+}
+
+.list-card-user
+{
+    background-color: #141416;
+    border: solid white 1px;
+    border-radius: 60px;
+    box-shadow: -10px 2px 1px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    height: auto;
+    position: relative;
+    right: 8%;
+}
+
+.list-card-user-a
+{
+    background-color: #141416;
+    border: solid white 1px;
+    border-radius: 60px;
+    box-shadow: -10px 2px 1px rgba(0, 0, 0, 0.3);
+    width: 75% !important;
+}
+
+.porfile_card
+{
+    background-color: #000000;
+    border: solid white 1px;
+    border-radius: 35px;
+    box-shadow: -10px 2px 1px rgba(0, 0, 0, 0.3);
+    width: 85% !important;
+}
+
+.card-new-review-user
+{
+    background-color: #141416;
+    border: solid white 1px;
+    border-radius: 20px;
+    box-shadow: -10px 2px 1px rgba(0, 0, 0, 0.3);
+    width: 97%;
+    height: 70%;
+}
+
+.section_perfil
+{
+    background-color: #2c2b3d;
+    border-radius: 20px;
+}
+
+.btn-delete-list
+{
+    border: 0px;
+    width: 20px !important;
+    height: 20px !important;
+    background-color: #ff000000;
+}

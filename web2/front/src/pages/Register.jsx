@@ -1,8 +1,10 @@
 import React from 'react';
-import RegisterCard from '../components/register_card';
+import RegisterCard from '../components/register_card'; //Mandamos a llamar el componente de los botones, colores (recursos) para el diseño
 import SideCards from '../components/side_cards';
 
-const Register = () => 
+//JSX pq es el estandar de react ajsjajasj plus sirve pa diferenciarlos con los js
+
+const Register = () => //componente de registro
 {
     return(
         <div className='' style={{width: '100%', height: '100vh', margin: '0px', padding: '0px'}}>
