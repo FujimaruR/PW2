@@ -54,6 +54,14 @@ const CreateReview = () =>
         });
     };
 
+    const isTextEmpty = (text) => {
+        return text.trim() === '';
+    };
+
+    const isPositiveInteger = (text) => {
+        return /^\d+$/.test(text) && parseInt(text, 10) >= 0;
+    };
+
     useEffect(() => {
         const currentDate = new Date();
         setDateOfReview(currentDate);
