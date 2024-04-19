@@ -31,7 +31,12 @@ const Navbar = () => {
     };
 
     const handleProfile = () => {
+        if (Rol == 2){
         navigate('/EditPerfil');
+        }
+        else{
+            navigate('/Perfil_user')
+        }
     };
 
 
@@ -79,7 +84,7 @@ const Navbar = () => {
                 {localStorage.getItem('Rol') !== '1' ? (
                        <button className="btn_submit mx-2" onClick={handleProfile}>Editar Perfil</button>
                     ) : (
-                        <button className="btn_submit mx-2" onClick=''>Mi Perfil</button>
+                        <button className="btn_submit mx-2" onClick={handleProfile}>Mi Perfil</button>
                     )}
                     
                     

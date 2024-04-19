@@ -7,6 +7,7 @@ import LabelText from '../components/label_text';
 import InputText from '../components/input_text';
 import ButtonSubmit from '../components/button_submit';
 import styled from 'styled-components';
+import Navbar from '../components/navbar';
 
 const StyledBody = styled.body`
     background-color: black !important;
@@ -20,8 +21,9 @@ const Perfil_user = () =>
     return(
         <StyledBody>
         <div className='' style={{width: '100%', height: '100%', margin: '0px !important;', padding: '0px'}}>
+            <Navbar></Navbar>
             
-            <div className='container justify-content-center align-items-center mx-auto porfile_card' style={{ padding: '0px',  }}>
+            <div className='container justify-content-center align-items-center mx-auto porfile_card' style={{ padding: '0px', marginTop: '10px' }}>
                 <div className='row justify-content-center mx-auto d-flex' style={{width: '100%',  padding: '0px', margin:'0px'}}>
                     
                     <div className='col-md-12 row mt-3'>
