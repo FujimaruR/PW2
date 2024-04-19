@@ -36,7 +36,8 @@ app.post("/login",
                 if(data.length > 0){
                     console.log("El usuario", req.body.username, "ha iniciado sesión")
                     resp.json({
-                        "username": data[0].username,
+                        "id": data[0].ID_Usuario,
+                        "username": data[0].Usuario,
                         "alert": 'Success'
                     })
                 }
@@ -94,10 +95,49 @@ app.post("/register", (req, resp) => {
                     resp.status(500).send("Error al registrar el usuario.");
                 }
             } else {
-                resp.send("Usuario registrado con éxito.");
+                db.query("SELECT * FROM usuarios WHERE Usuario=? AND Contraseña=?",
+                [usuario, contraseña],
+                (err, data)=>{
+                    if(err){
+                        resp.send(err);
+                    }else{
+                        if(data.length > 0){
+                            console.log("Usuario registrado con éxito.")
+                            resp.json({
+                                "id": data[0].ID_Usuario,
+                                "username": data[0].Usuario,
+                                "alert": 'Success'
+                            })
+                        }
+                        else{
+                            resp.json("'Las credenciales no son correctas, favor de intentar de nuevo'");
+                            console.log("El usuario ha fallado en el inicio de sesión")
+                        }
+                    }
+                })
+            }
+        });
+})
+
+app.post("/createreview", (req, resp) => {
+    const user = req.body.usuario;
+    const juego = req.body.game;
+    const resen = req.body.reseña;
+    const cali = req.body.calif;
+    const fecha = req.body.fecha;
+
+    db.query('INSERT INTO review (ID_Juego, ID_Usuario, Fecha_Reseña, Valor_Calificacion, Reseña) VALUES (?,?,?,?,?)',
+        [juego, user, fecha, cali, resen],
+        (err, data) => {
+            if (err) {
+                console.log(err);
+            } else {
+                resp.send("Registrado con éxito");
             }
         });
 });
+
+
 
 
 

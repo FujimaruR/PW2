@@ -80,10 +80,15 @@ const RegisterCard = () => {
         })
         .then((response) => {
             console.log(response);
-            alert("Usuario registrado con éxito.");
-
-            localStorage.setItem('userData', JSON.stringify(username));
-            navigate('/LandingPage');
+            if (response.data.alert === 'Success') {
+                const { username, id } = response.data;
+                localStorage.setItem('userData', JSON.stringify(username));
+                localStorage.setItem('userId', JSON.stringify(id));
+                navigate('/LandingPage');
+              } else {
+                // Manejar la situación cuando las credenciales no son correctas
+                alert(response.data.alert);
+              }
 
 
         })

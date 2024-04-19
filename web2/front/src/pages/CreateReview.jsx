@@ -1,15 +1,75 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../css/review.css';
 import img1 from '../img/img_1.png';
 import ButtonSubmit from '../components/button_submit';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import LabelText from '../components/label_text';
 
 const CreateReview = () => 
 {
+    const navigate = useNavigate();
+    const [resena, setResena] = useState('');
+    const [calificacion, setCalificacion] = useState('');
+    const [juego, setJuego] = useState('4');
+    const [username, setUsername] = useState('');
+    const [dateOfReview, setDateOfReview] = useState('');
+
+    const handleRegister = (e) => {
+        e.preventDefault();
+
+        // Validar que los campos no estén vacíos
+        if (!username || !juego) {
+            return;
+        }
+
+        // Limpia el mensaje de error
+        //setErrorMessage('');
+
+        // Llama a la función para registrar al usuario
+        registerReview();
+    };
+
+    const registerReview = () => {
+        axios.post('http://localhost:3001/createreview', {
+            usuario: username,
+            reseña : resena,
+            calif: calificacion,
+            game: juego,
+            fecha: dateOfReview,
+        })
+        .then((response) => {
+            console.log(response);
+            alert("Reseña registrada con éxito.");
+            navigate('/LandingPage');
+        })
+        .catch((error) => {
+            console.error(error);
+            if (error.response && error.response.status === 400) {
+                const errorMessage = error.response.data;
+                alert(errorMessage);
+            } else {
+                alert('Hubo un error al registrar la reseña. Por favor, intenta de nuevo más tarde.');
+            }
+        });
+    };
+
+    useEffect(() => {
+        const currentDate = new Date();
+        setDateOfReview(currentDate);
+        // Leer el username del localStorage
+        const storedUsername = localStorage.getItem('userId');
+        if (storedUsername) {
+            setUsername(storedUsername);
+        }
+    }, []);
+    
+
+
     return(
         <div className='' style={{width: '100%', height: '100vh', margin: '0px', padding: '0px'}}>
            <div className='container black-card-creview  mt-3'>
-            <form action="">
+            <form onSubmit={handleRegister}>
                 <div className='row'>
                     <div className='col-md-12 row mt-4' >
                         <div className='col-md-8 d-flex justify-content-center align-items-center' >
@@ -35,12 +95,12 @@ const CreateReview = () =>
                             </div>
                             <div className='col-md-9 mt-3'>
                                 <h3 className='create-review-t1'>Team Fortress 2</h3>
-                                <textarea name="" id="" className='input-create-review' placeholder='¡Ingresa tu reseña!'></textarea>
+                                <textarea name="" id="" className='input-create-review' placeholder='¡Ingresa tu reseña!' value={resena} onChange={(e) => setResena(e.target.value)}></textarea>
                             </div>
                             <div className='col-md-6'></div>
                             <div className='col-md-6 d-flex align-items-center justify-content-center mt-2 mb-2'>
                                 <p style={{ color: 'white', fontFamily: 'Arial, Helvetica, sans-serif', margin: '0px'}}>Ingresa una puntuación:</p>
-                                <input type="text" name="score-review" id="score-review" className='score-review'/>
+                                <input type="text" name="score-review" id="score-review" className='score-review'value={calificacion} onChange={(e) => setCalificacion(e.target.value)}/>
                             </div>
                             
                         </div>

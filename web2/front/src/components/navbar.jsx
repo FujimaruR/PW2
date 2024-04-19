@@ -12,6 +12,7 @@ const Navbar = () => {
     const handleLogout = () => {
         // Eliminar datos del localStorage
         localStorage.removeItem('userData');
+        localStorage.removeItem('userId');
         // Redirigir a otra página
         navigate('/Login');
     };
