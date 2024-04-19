@@ -6,6 +6,15 @@ import LabelText from '../components/label_text';
 
 const CreateReview = () => 
 {
+
+    const isTextEmpty = (text) => {
+        return text.trim() === '';
+    };
+
+    const isPositiveInteger = (text) => {
+        return /^\d+$/.test(text) && parseInt(text, 10) >= 0;
+    };
+
     return(
         <div className='' style={{width: '100%', height: '100vh', margin: '0px', padding: '0px'}}>
            <div className='container black-card-creview  mt-3'>
