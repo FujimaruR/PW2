@@ -126,8 +126,8 @@
     border: solid white 1px;
     border-radius: 20px;
     box-shadow: -10px 2px 1px rgba(0, 0, 0, 0.3);
-    min-width: 350px !important;
-    max-width: 350px !important;
+    min-width: 250px !important;
+    max-width: 250px !important;
     min-height: 350px !important;
     /*max-height: 350px !important;*/
 }

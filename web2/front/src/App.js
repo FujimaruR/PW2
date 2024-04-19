@@ -7,8 +7,13 @@ import Register from './pages/Register';
 import EditPerfil from "./pages/EditPerfil";
 import VoteReview from "./pages/VoteReview";
 import CreateReview from "./pages/CreateReview";
-import Perfil_user from "./pages/Perfil_user";
+import PerfilUser from "./pages/Perfil_user";
 import LandingPage from "./pages/LandingPage";
+import AgregarJuego from "./pages/AgregarJuego";
+import EditarJuego from "./pages/EditarJuego";
+import DetallesJuego from "./pages/DetallesJuego";
+import BusquedaUsuario from "./pages/BusquedaUsuario";
+import BusquedaAdmin from "./pages/BusquedaAdmin";
 
 function App() {
   return (
@@ -21,8 +26,13 @@ function App() {
             <Route exact path="/Edit_user" element={<EditPerfil />}/>
             <Route exact path="/VoteReview" element={<VoteReview />}/>
             <Route exact path="/CreateReview" element={<CreateReview />}/>
-            <Route exact path="/Perfil" element={<Perfil_user />}/>
+            <Route exact path="/Perfil" element={<PerfilUser />}/>
             <Route exact path="/LandingPage" element={<LandingPage />}/>
+            <Route exact path="/AgregarJuego" element={<AgregarJuego />}/>
+            <Route exact path="/EditarJuego" element={<EditarJuego />}/>
+            <Route exact path="/DetallesJuego" element={<DetallesJuego />}/>
+            <Route exact path="/BusquedaUsuario" element={<BusquedaUsuario />}/>
+            <Route exact path="/BusquedaAdmin" element={<BusquedaAdmin />}/>
         </Route>
       </Routes>
     </BrowserRouter>

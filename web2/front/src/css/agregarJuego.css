@@ -1,0 +1,13 @@
+.textarea_login {
+    border-radius: 15px;
+    max-width: 360px;
+    width: 100%;
+    min-height: 100px;
+    max-height: 200px;
+    background-color: #375560;
+    border: solid 1px white;
+    color: white;
+    padding: 10px;
+    resize: vertical; /* Permitir redimensionamiento vertical */
+    box-shadow: -10px 2px 1px rgba(0, 0, 0, 0.3);
+}
