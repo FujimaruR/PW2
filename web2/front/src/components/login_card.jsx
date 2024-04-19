@@ -33,18 +33,25 @@ const LoginCard = () => {
     })
       .then((response) => {
         console.log(response);
-        localStorage.setItem('userData', JSON.stringify(username));
-        alert("Se ha iniciado sesión correctamente")
-        navigate('/LandingPage');
+          localStorage.setItem('userName', JSON.stringify(username));
+          localStorage.setItem('Rol', JSON.stringify(response.data.rol));
+          localStorage.setItem('id', JSON.stringify(response.data.id));
+          alert("Se ha iniciado sesión correctamente")
+        if (response.data.rol == 1)
+          navigate('/LandingPage');
+        else {
+          navigate('/AgregarJuego')
+        }
       })
       .catch((error) => {
         console.error(error);
+        localStorage.clear();
         setErrorMessage('Las credenciales no son válidas, intenta nuevamente.');
       });
   };
 
   const handleRegisterClick = () => {
-    navigate('/register'); 
+    navigate('/register');
   };
 
   useEffect(() => {
@@ -53,11 +60,17 @@ const LoginCard = () => {
 
 
   useEffect(() => {
-    const userData = localStorage.getItem('userData');
+    const rol = localStorage.getItem('Rol');
 
-    if (userData) {
-      navigate('/LandingPage');
+    if (rol != null) {
+      if (rol == 1) {
+        navigate('/LandingPage');
+      }
+      else {
+        navigate('/AgregarJuego')
+      }
     }
+
   }, [navigate]);
 
   return (

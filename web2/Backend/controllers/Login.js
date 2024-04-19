@@ -15,23 +15,22 @@ function Login(){
             localStorage.removeItem('auth');
     },[])
 
-    const log = ()=>{
-        Axios.post("http://localhost:3001/login",
-        {usuario: user,
-         contra: pass} 
-        ).then((data)=>{
-            if(data.data.alert === "Success"){
-                localStorage.setItem('auth', JSON.stringify(data.data.user));
-                console.log(data);
+    const log = () => {
+        Axios.post("http://localhost:3001/login", {
+            username: user,
+            password: pass
+        }).then((response) => {
+            if (response.data.alert === "Success") {
+                // Almacena el nombre de usuario y el rol en el sessionStorage
+                console.log(response);
                 nav("/lista");
-            }else{
-                alert('Usuario no encontrado')
+            } else {
+                alert('Usuario no encontrado');
             }
-        }).catch((error)=>{
+        }).catch((error) => {
             console.log(error);
-        })
-
-    }
+        });
+    };
 
     return(
     <div className="registrationBox">

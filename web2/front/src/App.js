@@ -23,7 +23,7 @@ function App() {
             <Route index element={<Login />} />
             <Route path="login" element={<Login />}/>
             <Route exact path="/Register" element={<Register />}/>
-            <Route exact path="/Edit_user" element={<EditPerfil />}/>
+            <Route exact path="/EditPerfil" element={<EditPerfil />}/>
             <Route exact path="/VoteReview" element={<VoteReview />}/>
             <Route exact path="/CreateReview" element={<CreateReview />}/>
             <Route exact path="/Perfil" element={<PerfilUser />}/>
