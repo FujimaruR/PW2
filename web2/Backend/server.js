@@ -43,7 +43,7 @@ app.post("/login",
                         console.log("El usuario", req.body.username, "ha iniciado sesión")
                         console.log(data[0].ID_Rol);
                         resp.json({
-                            "username": data[0].username,
+                            "username": data[0].Usuario,
                             "id": data[0].ID_Usuario,
                             "rol": data[0].ID_Rol,
                             "alert": 'Success'
@@ -138,6 +138,36 @@ app.get("/publishers", (req, resp) => {
     db.query("SELECT * FROM publisher", (err, data) => {
         if (err) {
             resp.status(500).json({ error: "Error al obtener los publishers" });
+        } else {
+            resp.json(data);
+        }
+    });
+});
+
+app.get("/landingGames", (req, resp) => {
+    db.query("SELECT * FROM vista_juegos_reviews_likes", (err, data) => {
+        if (err) {
+            resp.status(500).json({ error: "Error al obtener los juegos" });
+        } else {
+            resp.json(data);
+        }
+    });
+});
+
+app.get("/landingGamesLikes", (req, resp) => {
+    db.query("SELECT * FROM vista_juegos_reviews_likes WHERE Cantidad_Likes > 0 ORDER BY Cantidad_Likes DESC", (err, data) => {
+        if (err) {
+            resp.status(500).json({ error: "Error al obtener los juegos" });
+        } else {
+            resp.json(data);
+        }
+    });
+});
+
+app.get("/landingGamesCalif", (req, resp) => {
+    db.query("SELECT * FROM vista_juegos_reviews_likes WHERE Valor_Calificacion > 0 ORDER BY Valor_Calificacion DESC", (err, data) => {
+        if (err) {
+            resp.status(500).json({ error: "Error al obtener los juegos" });
         } else {
             resp.json(data);
         }

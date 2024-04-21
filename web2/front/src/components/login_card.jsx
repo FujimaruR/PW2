@@ -34,7 +34,7 @@ const LoginCard = () => {
       .then((response) => {
         console.log(response);
         if (response.data.alert === 'Success') {
-          const { username, id } = response.data;
+          const { username, id, rol } = response.data;
           localStorage.setItem('userData', JSON.stringify(username));
           localStorage.setItem('userId', JSON.stringify(id));
           localStorage.setItem('Rol', JSON.stringify(rol));
