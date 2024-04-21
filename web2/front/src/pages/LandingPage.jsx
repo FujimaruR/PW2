@@ -60,9 +60,7 @@ const LandingPage = () => {
 
             <div className='col-md-3 d-flex' style={{ padding: '0px',}}>
                 <div className="flex-grow-1">
-                    {gamesLikes.map((gamecalif, indexd) => (
-                        <Sidebar_games key={indexd} gamecalif={gamecalif} />
-                    ))}
+                    <Sidebar_games gamesCalif={gamesCalif} />
                 </div>
             </div>
         </div>

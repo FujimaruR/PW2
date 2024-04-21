@@ -181,7 +181,33 @@ app.get("/landingGamesCalif", (req, resp) => {
                 ...juego,
                 Imagen: juego.Imagen.toString('base64')
             }));
+            
+            console.log('Juego encontrado:' + juegosConImagenBase64);
             resp.json(juegosConImagenBase64);
+        }
+    });
+});
+
+
+app.get("/ShowJuegoR", (req, resp) => {
+    const id = req.query.id;
+
+    // Log para verificar el valor de idPerfil
+    console.log("ID de juego recibido:", id);
+
+    // Obtiene los datos de la base de datos, incluyendo la imagen como Buffer
+    db.query("SELECT * FROM juegos WHERE ID_Juego = ? ", [id], (err, data) => {
+        if (err) {
+            console.error("Error al obtener el perfil del juego:", err);
+            resp.status(500).json({ error: "Error al obtener el perfil del juego" });
+        } else {
+            // Log para verificar los datos obtenidos de la base de datos
+            console.log("Datos de juego obtenidos:", data);
+            const usuarioBase64 = data.map(juego => ({
+                ...juego,
+                Imagen: juego.Imagen.toString('base64')
+            }));
+            resp.json(usuarioBase64);
         }
     });
 });

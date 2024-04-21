@@ -23,7 +23,7 @@ const NewGame_Card = () => {
     const [selectedPublisher, setSelectedPublisher] = useState('');
     const [selectedCategoria, setSelectedCategoria] = useState('');
 
-    const id = localStorage.getItem('id');
+    const id = localStorage.getItem('userId');
 
 
     const ChangeImagen = (event) => {
