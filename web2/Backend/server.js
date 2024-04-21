@@ -149,7 +149,11 @@ app.get("/landingGames", (req, resp) => {
         if (err) {
             resp.status(500).json({ error: "Error al obtener los juegos" });
         } else {
-            resp.json(data);
+            const juegosConImagenBase64 = data.map(juego => ({
+                ...juego,
+                Imagen: juego.Imagen.toString('base64')
+            }));
+            resp.json(juegosConImagenBase64);
         }
     });
 });
@@ -159,7 +163,11 @@ app.get("/landingGamesLikes", (req, resp) => {
         if (err) {
             resp.status(500).json({ error: "Error al obtener los juegos" });
         } else {
-            resp.json(data);
+            const juegosConImagenBase64 = data.map(juego => ({
+                ...juego,
+                Imagen: juego.Imagen.toString('base64')
+            }));
+            resp.json(juegosConImagenBase64);
         }
     });
 });
@@ -169,7 +177,11 @@ app.get("/landingGamesCalif", (req, resp) => {
         if (err) {
             resp.status(500).json({ error: "Error al obtener los juegos" });
         } else {
-            resp.json(data);
+            const juegosConImagenBase64 = data.map(juego => ({
+                ...juego,
+                Imagen: juego.Imagen.toString('base64')
+            }));
+            resp.json(juegosConImagenBase64);
         }
     });
 });

@@ -8,6 +8,7 @@ import EditPerfil from "./pages/EditPerfil";
 import VoteReview from "./pages/VoteReview";
 import CreateReview from "./pages/CreateReview";
 import Perfil_user from "./pages/Perfil_user";
+import PerfilUser from "./pages/PerfilUser";
 import LandingPage from "./pages/LandingPage";
 import AgregarJuego from "./pages/AgregarJuego";
 import EditarJuego from "./pages/EditarJuego";
@@ -27,6 +28,7 @@ function App() {
             <Route exact path="/VoteReview" element={<VoteReview />}/>
             <Route exact path="/CreateReview" element={<CreateReview />}/>
             <Route exact path="/Perfil_user" element={<Perfil_user/>}/>
+            <Route exact path="/PerfilUser" element={<PerfilUser/>}/>
             <Route exact path="/LandingPage" element={<LandingPage />}/>
             <Route exact path="/AgregarJuego" element={<AgregarJuego />}/>
             <Route exact path="/EditarJuego" element={<EditarJuego />}/>

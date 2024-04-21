@@ -35,7 +35,7 @@ const Navbar = () => {
         navigate('/EditPerfil');
         }
         else{
-            navigate('/Perfil_user')
+            navigate('/PerfilUser')
         }
     };
 

@@ -4,11 +4,14 @@ import '../css/login.css';
 import star from "../img/star.png";
 
 const Card_Game_Likes = ({ gamelike }) => {
+
+    const decodedImageString = decodeURIComponent(escape(atob(gamelike.Imagen)));
+
     return (
         <div className='card-game-landing mt-2' style={{ margin:'10px', marginBottom: '10px' }}>
             <div className='row justify-content-center align-items-center mx-auto mt-4' style={{ width: '100%' }}>
                 <div className='col-md-6 mt-2'>
-                    <img src={gamelike.Imagen} alt={gamelike.Titulo} 
+                    <img src={decodedImageString} alt={gamelike.Titulo} 
                          style={{ width: '90%', height: 'auto', borderRadius:'5px', maxWidth:'150px' }}/>
                 </div>
                 <div className='col-md-6 mt-3'>

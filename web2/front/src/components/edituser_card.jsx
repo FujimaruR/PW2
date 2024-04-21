@@ -15,11 +15,12 @@ const Edituser_card = () => {
     const [imagenPerfil, setImagenPerfil] = useState(null);
     const [userData, setUserData] = useState({
         img: imagenPerfil,
-        id: localStorage.getItem('id')
+        id: localStorage.getItem('userId')
     });
 
 
-    const id = localStorage.getItem('id');
+    const id = localStorage.getItem('userId');
+    console.log(id);
 
     useEffect(() => {
         // Hacer la solicitud GET al endpoint para obtener los datos del perfil
