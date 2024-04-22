@@ -89,16 +89,12 @@ const NewGame_Card = () => {
 
                                 <div className='container mb-2 cards'>
                                     <div className='card '>
-                                        <Card_Game></Card_Game>                                  
                                     </div>
                                     <div className='card '>
-                                        <Card_Game></Card_Game>                                  
                                     </div>
                                     <div className='card '>
-                                        <Card_Game></Card_Game>                                  
                                     </div>
                                     <div className='card '>
-                                        <Card_Game></Card_Game>                                  
                                     </div>
                                 </div>
 
