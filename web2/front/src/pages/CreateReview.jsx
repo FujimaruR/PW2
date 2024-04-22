@@ -21,19 +21,18 @@ const CreateReview = () => {
     const [imagenPerfil, setImagenPerfil] = useState(null);
     const [tituloJuego, settituloJuego] = useState(null);
     const [desarrolladora, setdesarrolladora] = useState(null);
+    const [showErrorMessage, setShowErrorMessage] = useState(false);
 
     const handleRegister = (e) => {
         e.preventDefault();
 
         // Validar que los campos no estén vacíos
-        if (!username || !juego) {
+        if (!username || !juego || !resena) {
+            setShowErrorMessage(true);
             return;
         }
 
-        // Limpia el mensaje de error
-        //setErrorMessage('');
-
-        // Llama a la función para registrar al usuario
+        setShowErrorMessage(false);
         registerReview();
     };
 
@@ -65,15 +64,9 @@ const CreateReview = () => {
         navigate('/LandingPage');
     };
 
-    const isPositiveInteger = (text) => {
-        const number = parseInt(text, 10);
-        return /^\d+$/.test(text) && number >= 1 && number <= 10;
-    };
-
     useEffect(() => {
         const currentDate = new Date();
         setDateOfReview(currentDate);
-        // Leer el username del localStorage
         const storedUsername = localStorage.getItem('userId');
         if (storedUsername) {
             setUsername(storedUsername);
@@ -81,27 +74,17 @@ const CreateReview = () => {
 
         axios.get(`http://localhost:3001/ShowJuegoR?id=${searchParam}`)
             .then(response => {
-                // Al recibir los datos, establecerlos en el estado
                 const gameDataFromAPI = response.data[0];
-                
-
-                // Decodificar la imagen después de que los datos del usuario se hayan cargado completamente
                 const decodedImageString = decodeURIComponent(escape(atob(gameDataFromAPI.Imagen)));
                 setImagenPerfil(decodedImageString);
-
-
                 settituloJuego(gameDataFromAPI.Titulo);
                 setdesarrolladora(gameDataFromAPI.Desarrolladora);
-                
-
             })
             .catch(error => {
                 console.error('Error al obtener la información del juego:', error);
             });
 
     }, []);
-
-
 
     return (
         <div className='' style={{ width: '100%', height: '100vh', margin: '0px', padding: '0px' }}>
@@ -115,13 +98,11 @@ const CreateReview = () => {
                                     <h3 className='create-review-t1'>Haz una reseña:</h3>
                                     <p className='create-review-text1'>¡El mundo quiere saber tu opinión!</p>
                                 </div>
-
                             </div>
                             <div className='col-md-2'></div>
                             <div className='col-md-2 d-flex  justify-content-center align-items-center'>
                                 <button type="button" name="btn_volver" id="btn_volver" className="btn_submit mx-2" onClick={handleBack}>Volver</button>
                             </div>
-
                         </div>
                         <div className='col-md-12 d-flex justify-content-center align-items-center mb-3'>
                             <div className='container-create-review mt-3 row'>
@@ -133,6 +114,7 @@ const CreateReview = () => {
                                 <div className='col-md-9 mt-3'>
                                     <h3 className='create-review-t1'>{tituloJuego}</h3>
                                     <textarea name="" id="" className='input-create-review' placeholder='¡Ingresa tu reseña!' value={resena} onChange={(e) => setResena(e.target.value)}></textarea>
+                                    {showErrorMessage && <p style={{ color: 'red' }}>Por favor llene todos los campos</p>}
                                 </div>
                                 <div className='col-md-6'></div>
                                 <div className='col-md-6 d-flex align-items-center justify-content-center mt-2 mb-2'>
@@ -145,23 +127,19 @@ const CreateReview = () => {
                                         value={calificacion}
                                         onChange={(e) => {
                                             let inputValue = e.target.value;
-                                            // Remover caracteres no numéricos y números fuera del rango
-                                            inputValue = inputValue.replace(/\D/g, ''); // Remover caracteres no numéricos
+                                            inputValue = inputValue.replace(/\D/g, '');
                                             if (inputValue !== '' && (inputValue < 1 || inputValue > 10)) {
-                                                // Si el número está fuera del rango, establecer como vacío
                                                 inputValue = '';
                                             }
                                             setCalificacion(inputValue);
                                         }}
                                     />
-
                                 </div>
-
                             </div>
                         </div>
                         <div className='col-md-12 text-center mt-2'>
                             <ButtonSubmit type="submit" name="btn_submit" id="btn_submit" value="Reseñar" />
-                        </div>|
+                        </div>
                     </div>
                 </form>
             </div>
@@ -169,4 +147,4 @@ const CreateReview = () => {
     );
 };
 
-export default CreateReview
+export default CreateReview;

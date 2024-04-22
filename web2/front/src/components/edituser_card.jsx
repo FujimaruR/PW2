@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import InputText from '../components/input_text';
 import LabelText from '../components/label_text';
 import ButtonSubmit from '../components/button_submit';
@@ -7,20 +7,25 @@ import '../css/login.css';
 import img2 from '../img/img_2.png';
 import img3 from '../img/img_3.png';
 import img4 from '../img/img_4.png';
-import axios from 'axios';
-
+import { useNavigate } from 'react-router-dom';
 
 const Edituser_card = () => {
     const navigate = useNavigate();
+    const [showErrorMessage, setShowErrorMessage] = useState(false);
     const [imagenPerfil, setImagenPerfil] = useState(null);
     const [userData, setUserData] = useState({
         img: imagenPerfil,
-        id: localStorage.getItem('userId')
+        id: localStorage.getItem('userId'),
+        Usuario: '',
+        Contraseña: '',
+        Nombre: '',
+        Apellido_P: '',
+        Fecha_Nacimiento: '',
+        Correo_Electronico: '',
+        Genero: ''
     });
 
-
     const id = localStorage.getItem('userId');
-    console.log(id);
 
     useEffect(() => {
         // Hacer la solicitud GET al endpoint para obtener los datos del perfil
@@ -54,17 +59,19 @@ const Edituser_card = () => {
         }
     };
 
-
     const handleSubmit = (event) => {
         event.preventDefault();
+        // Validar que todos los campos de texto necesarios estén llenos
+        const allFieldsFilled = Object.values(userData).every(value => value !== '');
+        if (!allFieldsFilled) {
+            setShowErrorMessage(true);
+            return;
+        }
         // Crear un objeto con los datos actualizados del usuario
         const updatedUserData = {
             ...userData,
             img: imagenPerfil,
         };
-
-        console.log(updatedUserData);
-
 
         // Enviar una solicitud POST al servidor con los datos actualizados
         axios.post('http://localhost:3001/editarUsuario', updatedUserData)
@@ -84,56 +91,41 @@ const Edituser_card = () => {
             });
     };
 
-    //const decodedImageString = decodeURIComponent(escape(atob(userData.img)));
-
-
     return (
         <div className='d-flex justify-content-center align-items-center' style={{ height: '100%', width: '100%' }}>
             <div className='' style={{ height: '30px' }}></div>
             <div className='container login_card'>
                 <form className='row h-100 justify-content-center align-items-center' style={{ minHeight: '200px' }} onSubmit={handleSubmit}>
-                    
-                    
                     <div className='row mt-3'>
                         <div className='col-6'>
-                        <LabelText text="Cambiar foto de perfil:" id="text-pc" />
+                            <LabelText text="Cambiar foto de perfil:" id="text-pc" />
                         </div>
                         <div className='col-6'>
-                        <LabelText text="Foto de Perfil:" id="text-mb" />
+                            <LabelText text="Foto de Perfil:" id="text-mb" />
                         </div>
                     </div>
 
                     <div className='row mb-4'>
-
-
                         <div className='col-md-6 text-left mt-3'>
                             <div className='mb-6'>
                                 <label htmlFor="img" style={{ cursor: 'pointer' }} id="text-pc">
                                     <img src={img4} style={{ width: '40%', height: 'auto', marginRight: '30px' }} />
                                     <img src={img2} style={{ width: '25%', height: 'auto', marginLeft: '30px' }} />
                                 </label>
-                                <input type="file" name="img" id="img" style={{ display: 'none' }} onChange={ChangeImagen} />   
+                                <input type="file" name="img" id="img" style={{ display: 'none' }} onChange={ChangeImagen} />
                             </div>
                         </div>
-
                         <div className='col-md-6 mt-0'>
                             <div className='d-flex justify-content-center align-items-center'>
-
                                 <label htmlFor="img" style={{ cursor: 'pointer', minWidth: '45%' }} className='d-flex justify-content-center align-items-center'>
                                     <img src={imagenPerfil ? imagenPerfil : img3} style={{ width: '50%', height: 'auto' }} className='mb-3' />
                                 </label>
-
                             </div>
-
                         </div>
-
                     </div>
-                    
 
                     <div className='row mb-0'>
-
                         <div className='col-md-6 text-left mt-0'>
-           
                             <LabelText text="Nombre de usuario:" id="text-pc" />
                             <LabelText text="Contraseña:" id="text-pc" />
                             <LabelText text="Nombre:" id="text-pc" />
@@ -141,11 +133,8 @@ const Edituser_card = () => {
                             <LabelText text="Fecha de Nacimiento:" id="text-pc" />
                             <LabelText text="Correo Electrónico:" id="text-pc" />
                             <LabelText text="Género:" id="text-pc" />
-
                         </div>
-
                         <div className='col-md-6 mt-0'>
-
                             <LabelText text="Nombre de usuario:" id="text-mb" />
                             <InputText
                                 type="text"
@@ -209,14 +198,12 @@ const Edituser_card = () => {
                             </select>
 
                         </div>
-
                     </div>
 
-
                     <div className='col-md-12 text-center mb-0 mt-3'>
+                        {showErrorMessage && <p style={{ color: 'red' }}>Por favor llene todos los campos</p>}
                         <ButtonSubmit type="submit" name="btn_submit" id="btn_submit" value="Editar" />
-                    </div>|
-
+                    </div>
                 </form>
             </div>
         </div>
