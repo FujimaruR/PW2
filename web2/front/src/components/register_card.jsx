@@ -131,66 +131,84 @@ const RegisterCard = () => {
             <div className='' style={{ height: '30px' }}></div>
             <div className='container login_card'>
                 <form className='row h-100 justify-content-center align-items-center' style={{ minHeight: '200px' }} onSubmit={handleRegister}>
-                    <div className='col-md-5 text-left mt-3'>
-                        <div className='mb-5'>
+                    
+                    <div className='row mt-4'>
+                        <div className='col-6'>
                             <LabelText text="Foto de Perfil:" id="text-pc" />
-                            <label htmlFor="img" style={{ cursor: 'pointer' }} id="text-pc">
-                                <img src={img4} style={{ width: '40%', height: 'auto', marginRight: '30px' }} />
-                                <img src={img2} style={{ width: '25%', height: 'auto', marginLeft: '30px' }} />
+                        </div>
+                        <div className='col-6'>
+                            <LabelText text="Foto de Perfil:" id="text-mb" />
+                        </div>
+                        
+                    </div>
+
+                    <div className='row mb-4'>
+
+
+                        <div className='col-md-6 text-left mt-3'>
+                            <div className='mb-6'>
+                                <label htmlFor="img" style={{ cursor: 'pointer' }} id="text-pc">
+                                    <img src={img4} style={{ width: '40%', height: 'auto', marginRight: '30px' }} />
+                                    <img src={img2} style={{ width: '25%', height: 'auto', marginLeft: '30px' }} />
+                                </label>
+                                <input type="file" name="img" id="img" style={{ display: 'none' }} onChange={ChangeImagen} />
+                            </div>
+                        </div>
+
+                        <div className='col-md-6 mt-0'>
+                            <div className='d-flex justify-content-center align-items-center'>
+
+                            <label htmlFor="img" style={{ cursor: 'pointer', minWidth: '45%' }} className='d-flex justify-content-center align-items-center'>
+                                <img src={imagenPerfil ? imagenPerfil : img3} style={{ width: '50%', height: 'auto' }} className='mb-3' />
                             </label>
-                            <input type="file" name="img" id="img" style={{ display: 'none' }} onChange={ChangeImagen} />
-                        </div>
-                        <LabelText text="Nombre de usuario:" id="text-pc" />
-                        <LabelText text="Contraseña:" id="text-pc" />
-                        <LabelText text="Nombre:" id="text-pc" />
-                        <LabelText text="Apellido Paterno:" id="text-pc" />
-                        <LabelText text="Apellido Materno:" id="text-pc" />
-                        <LabelText text="Fecha de Nacimiento:" id="text-pc" />
-                        <LabelText text="Correo Electrónico:" id="text-pc" />
-                        <LabelText text="Género:" id="text-pc" />
-                    </div>
-                    <div className='col-md-6 mt-3'>
-                        <LabelText text="Foto de Perfil:" id="text-mb" />
-                        <div className='d-flex justify-content-center align-items-center'>
 
-                        <label htmlFor="img" style={{ cursor: 'pointer', minWidth: '45%' }} className='d-flex justify-content-center align-items-center'>
-                         <img src={imagenPerfil ? imagenPerfil : img3} style={{ width: '50%', height: 'auto' }} className='mb-3' />
-                        </label>
+                            </div>
 
                         </div>
-                        <LabelText text="Nombre de usuario:" id="text-mb" />
-                        <InputText type="text" name="user" id="user" value={username} onChange={(e) => setUsername(e.target.value)} />
-                        <LabelText text="Contraseña:" id="text-mb" />
-                        <InputText type="password" name="pass" id="pass" value={password} onChange={(e) => setPassword(e.target.value)} />
-                        <LabelText text="Nombre:" id="text-mb" />
-                        <InputText type="text" name="name" id="name" value={name} onChange={(e) => setName(e.target.value)} />
-
-                        
-                          {/*Agregué el apellido paterno y materno */}
-                        {/*Aguas a la hora de mandar a la BD */}
-
-
-                        <LabelText text="Apellido Paterno:" id="text-mb" />
-                        <InputText type="text" name="lastname" id="lastname" value={lastName} onChange={(e) => setLastName(e.target.value)} />
-
-                        <LabelText text="Apellido Materno:" id="text-mb" />
-                        <InputText type="text" name="lastname" id="lastname" value={lastName} onChange={(e) => setLastName(e.target.value)} />
-
-                        <LabelText text="Fecha de Nacimiento:" id="text-mb" />
-                        <InputText type="date" name="date" id="date" value={dateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)} />
-                        <LabelText text="Correo electronico:" id="text-mb" />
-                        <InputText type="text" name="correo" id="correo" value={correo} onChange={(e) => setCorreo(e.target.value)} />
-                        
-                        <select className='Combo-Box' value={gender} onChange={(e) => setGender(e.target.value)}>
-                            <option value="Masculino">Masculino</option>
-                            <option value="Femenino">Femenino</option>
-                            <option value="Otro">Otro</option>
-                        </select>
 
                     </div>
+
+                    <div className='row mb-0'>
+
+                        <div className='col-md-6 text-left mt-0'>
+                            <LabelText text="Nombre de usuario:" id="text-pc" />
+                            <LabelText text="Contraseña:" id="text-pc" />
+                            <LabelText text="Nombre:" id="text-pc" />
+                            <LabelText text="Apellidos:" id="text-pc" />
+                            <LabelText text="Fecha de Nacimiento:" id="text-pc" />
+                            <LabelText text="Correo Electrónico:" id="text-pc" />
+                            <LabelText text="Género:" id="text-pc" />
+                        </div>
+
+                        <div className='col-md-6 mt-0'>
+                            <LabelText text="Nombre de usuario:" id="text-mb" />
+                            <InputText type="text" name="user" id="user" value={username} onChange={(e) => setUsername(e.target.value)} />
+                            <LabelText text="Contraseña:" id="text-mb" />
+                            <InputText type="password" name="pass" id="pass" value={password} onChange={(e) => setPassword(e.target.value)} />
+                            <LabelText text="Nombre:" id="text-mb" />
+                            <InputText type="text" name="name" id="name" value={name} onChange={(e) => setName(e.target.value)} />
+
+                            <LabelText text="Apellidos:" id="text-mb" />
+                            <InputText type="text" name="lastname" id="lastname" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+
+                            <LabelText text="Fecha de Nacimiento:" id="text-mb" />
+                            <InputText type="date" name="date" id="date" value={dateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)} />
+                            <LabelText text="Correo electronico:" id="text-mb" />
+                            <InputText type="text" name="correo" id="correo" value={correo} onChange={(e) => setCorreo(e.target.value)} />
+                            
+                            <select className='Combo-Box' value={gender} onChange={(e) => setGender(e.target.value)}>
+                                <option value="Masculino">Masculino</option>
+                                <option value="Femenino">Femenino</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    
                     <div className='col-md-12 text-center mb-3 mt-5'>
                         <ButtonSubmit type="submit" name="btn_submit" id="btn_submit" value="Registrarse" />
                     </div>|
+
                     {errorMessage && <div className="col-md-12 text-center text-danger">{errorMessage}</div>}
                 </form>
             </div>

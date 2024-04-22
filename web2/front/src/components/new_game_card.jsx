@@ -44,6 +44,36 @@ const NewGame_Card = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
+            // Validar que los campos no estén vacíos
+            if (!nombreJuego) {
+                alert('Por favor, ingresa el nombre del juego.');
+                return;
+            }
+            if (!descripcionJuego) {
+                alert('Por favor, ingresa la descripción del juego.');
+                return;
+            }
+            if (!desarrolladora) {
+                alert('Por favor, ingresa el nombre de la desarrolladora.');
+                return;
+            }
+            if (!selectedPublisher) {
+                alert('Por favor, selecciona una publisher.');
+                return;
+            }
+            if (!selectedCategoria) {
+                alert('Por favor, selecciona una categoría.');
+                return;
+            }
+            if (!fechaLanzamiento) {
+                alert('Por favor, selecciona la fecha de lanzamiento.');
+                return;
+            }
+            if (!imagenPerfil) {
+                alert('Por favor, selecciona una imagen para el juego.');
+                return;
+            }
+
         axios.post('http://localhost:3001/newGame', {
             nombreJuego: nombreJuego,
             fechaLanzamiento: fechaLanzamiento,

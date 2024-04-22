@@ -71,6 +71,35 @@ const NewGame_Card = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
+            // Validar que los campos no estén vacíos
+            if (!gameData.Titulo) {
+                alert('Por favor, ingresa el nombre del juego.');
+                return;
+            }
+            if (!gameData.Descripcion) {
+                alert('Por favor, ingresa la descripción del juego.');
+                return;
+            }
+            if (!gameData.Desarrolladora) {
+                alert('Por favor, ingresa el nombre de la desarrolladora.');
+                return;
+            }
+            if (!selectedPublisher) {
+                alert('Por favor, selecciona una publisher.');
+                return;
+            }
+            if (!selectedCategoria) {
+                alert('Por favor, selecciona una categoría.');
+                return;
+            }
+            if (!gameData.Fecha_Lanzamiento) {
+                alert('Por favor, selecciona la fecha de lanzamiento.');
+                return;
+            }
+            if (!imagenPerfil) {
+                alert('Por favor, selecciona una imagen para el juego.');
+                return;
+            }
 
         const updatedGameData = {
             ...gameData,
@@ -218,7 +247,8 @@ const NewGame_Card = () => {
 
                     </div>
 
-                    <div className='col-md-12 text-center mb-2 mt-2'>
+                    <div className='d-flex col-md-12 text-center mb-2 mt-2'>
+                        {/*<ButtonSubmit type="button" name="btn_eliminar" id="btn_eliminar" value="Eliminar" />*/}
                         <ButtonSubmit type="submit" name="btn_submit" id="btn_submit" value="Editar" />
                     </div>|
 
