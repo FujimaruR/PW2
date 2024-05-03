@@ -37,11 +37,36 @@ const NewGame_Card = () => {
                                 <div className='col-12  text-center mb-2'>
                                     <ButtonSubmit type="button" name="btn_resenia" id="btn_resenia" value="Reseñar" />
                                 </div>
-                                <div className='col-12  text-center mb-2'>
-                                    <ButtonSubmit type="submit" name="btn_agregar" id="btn_agregar" value="Agregar a lista" />
+                            </div>
+
+                            <div className='row mt-2  text-center'>
+                                <h2 className='basic-text ' style={{ fontSize: '120%', fontWeight:'bold'}} >Agregar a lista:</h2>
+                            </div>
+
+                            <div className='row mt-1 d-flex justify-content-center align-items-center'>
+  
+                                <div className='col-6  text-center mb-0'>
+                                    <ButtonSubmit type="submit" name="btn_agregarFav" id="btn_agregarFav" value="Favoritos" />
+                                </div>
+                                <div className='col-6  text-center mb-0'>
+                                    <ButtonSubmit type="submit" name="btn_agregarTerminado" id="btn_agregarTerminado" value="Terminados" />
                                 </div>
                                 
                             </div>
+
+                            
+                            <div className='row mt-2 d-flex justify-content-center align-items-center'>
+  
+                                <div className='col-6  text-center mb-2'>
+                                    <ButtonSubmit type="submit" name="btn_agregarBack" id="btn_agregarBack" value="Backlog" />
+                                </div>
+
+                                <div className='col-6  text-center mb-2'>
+                                    <ButtonSubmit type="submit" name="btn_agregarAbandonado" id="btn_agregarAbandonado" value="Abandonados" />
+                                </div>
+                                
+                            </div>
+
 
                         </div>
 
