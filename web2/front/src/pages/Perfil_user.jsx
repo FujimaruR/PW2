@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Img_Card_User from '../components/img_card_user';
 import Card_Review_User from '../components/card_review_user';
 import List_card from '../components/list_card';
@@ -8,6 +8,8 @@ import InputText from '../components/input_text';
 import ButtonSubmit from '../components/button_submit';
 import styled from 'styled-components';
 import Navbar from '../components/navbar';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const StyledBody = styled.body`
     background-color: black !important;
@@ -18,6 +20,44 @@ const StyledBody = styled.body`
 
 const Perfil_user = () =>
 {
+    const [userData, setUserData] = useState({
+        idUsuario: '',
+        fechaNacimiento: '',
+        sexo: ''
+    });
+
+
+    useEffect(() => {
+        const storedUsername = localStorage.getItem('userId');
+        if (storedUsername) {
+            setUserData(prevState => ({
+                ...prevState,
+                idUsuario: storedUsername
+            }));
+        }
+
+            axios.post('http://localhost:3001/perfilUsuario', {
+            usuario: userData.idUsuario,
+            sexo: userData.sexo,
+            fecha: userData.fechaNacimiento,
+        })
+            .then((response) => {
+                console.log(response);
+                const userDataFromAPI = response.data;
+                setUserData(userDataFromAPI);
+            })
+            .catch((error) => {
+                console.error(error);
+                if (error.response && error.response.status === 400) {
+                    const errorMessage = error.response.data;
+                    alert(errorMessage);
+                } else {
+                    alert('Hubo un error al registrar la reseña. Por favor, intenta de nuevo más tarde.');
+                }
+            });
+    }, []);
+
+
     return(
         <StyledBody>
         <div className='' style={{width: '100%', height: '100%', margin: '0px !important;', padding: '0px'}}>
@@ -33,17 +73,17 @@ const Perfil_user = () =>
                         <div className='col-md-7 row mt-2'>
                             <div className='col-md-12 d-flex'>
                                 <LabelText text='Nombre de Usuario:'/>
-                                <InputText type='text'/>
+                                <InputText type='text' value={userData.idUsuario} />
                             </div>
                            
                             <div className='col-md-12 d-flex'>
                                 <LabelText text='Fecha de Nacimiento:'/>
-                                <InputText type='date'/>
+                                <InputText type='date' value={userData.fechaNacimiento} />
                             </div>
 
                             <div className='col-md-12 d-flex '>
                                 <LabelText text='Sexo:'/>
-                                <select className='Combo-Box' >
+                                <select className='Combo-Box' value={userData.sexo} >
                                     <option value="Masculino">Masculino</option>
                                     <option value="Femenino">Femenino</option>
                                     <option value="Otro">Otro</option>
