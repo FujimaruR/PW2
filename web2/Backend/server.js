@@ -70,8 +70,7 @@ app.get("/categorias", (req, resp) => {
 app.get("/busqueda", (req, resp) => {
     const juegoParam = req.query.juego;
 
-    // Obtiene los datos de la base de datos, incluyendo la imagen como Buffer
-    db.query("SELECT * FROM juegos WHERE titulo LIKE ?", [`%${juegoParam}%`], (err, data) => {
+    db.query("SELECT * FROM juegos WHERE titulo LIKE ? AND Estatus = 1", [`%${juegoParam}%`], (err, data) => {
         if (err) {
             resp.status(500).json({ error: "Error al obtener los juegos" });
         } else {
@@ -134,6 +133,71 @@ app.get("/EditJuego", (req, resp) => {
 });
 
 
+app.get("/VoteReview", (req, resp) => {
+    const id = req.query.id;
+
+    // Log para verificar el valor de idPerfil
+    console.log("ID de juego recibido:", id);
+
+    // Obtiene los datos de la base de datos, incluyendo la imagen como Buffer
+    db.query("SELECT * FROM vista_juegos_reviews_likes WHERE ID_Review = ? ", [id], (err, data) => {
+        if (err) {
+            console.error("Error al obtener la data de la review:", err);
+            resp.status(500).json({ error: "Error al obtener el la review:" });
+        } else {
+            // Log para verificar los datos obtenidos de la base de datos
+            console.log("Datos de review obtenidos:", data);
+            const reviewBase64 = data.map(juego => ({
+                ...juego,
+                Imagen: juego.Imagen.toString('base64')
+            }));
+            resp.json(reviewBase64);
+        }
+    });
+});
+
+app.get("/DetallesJuego", (req, resp) => {
+    const id = req.query.id;
+
+    // Log para verificar el valor de idPerfil
+    console.log("ID de juego recibido:", id);
+
+    // Obtiene los datos de la base de datos, incluyendo la imagen como Buffer
+    db.query("SELECT * FROM vista_juegos_info WHERE ID_Juego = ? ", [id], (err, data) => {
+        if (err) {
+            console.error("Error al obtener el perfil del usuario:", err);
+            resp.status(500).json({ error: "Error al obtener el perfil del usuario" });
+        } else {
+            // Log para verificar los datos obtenidos de la base de datos
+            const juegoBase64 = data.map(juego => ({
+                ...juego,
+                Imagen: juego.Imagen.toString('base64')
+            }));
+            resp.json(juegoBase64);
+        }
+    });
+});
+
+
+app.post("/DeleteGame", (req, resp) => {
+    const id = req.query.id;
+
+    // Log para verificar el valor de id
+    console.log("ID de juego recibido para eliminar:", id);
+
+    // Actualizar el estado del juego en la base de datos
+    db.query("UPDATE juegos SET Estatus = 0 WHERE ID_Juego = ?", [id], (err, result) => {
+        if (err) {
+            console.error("Error al actualizar el estado del juego:", err);
+            resp.status(500).json({ error: "Error al actualizar el estado del juego" });
+        } else {
+            console.log("Estado del juego actualizado correctamente");
+            resp.json({ message: "Estado del juego actualizado correctamente" });
+        }
+    });
+});
+
+
 app.get("/publishers", (req, resp) => {
     db.query("SELECT * FROM publisher", (err, data) => {
         if (err) {
@@ -145,7 +209,7 @@ app.get("/publishers", (req, resp) => {
 });
 
 app.get("/landingGames", (req, resp) => {
-    db.query("SELECT * FROM vista_juegos_reviews_likes", (err, data) => {
+    db.query("SELECT * FROM vista_juegos_reviews_likes LIMIT 5", (err, data) => {
         if (err) {
             resp.status(500).json({ error: "Error al obtener los juegos" });
         } else {
@@ -158,8 +222,29 @@ app.get("/landingGames", (req, resp) => {
     });
 });
 
+app.get("/lastReviewGame", (req, resp) => {
+
+    const id = req.query.id;
+    console.log("Juego requerido para reviews:" + id)
+
+    db.query("SELECT * FROM vista_juegos_reviews_likes WHERE ID_Juego = ? LIMIT 3", [id], (err, data) => {
+        if (err) {
+            resp.status(500).json({ error: "Error al obtener los juegos" });
+        } else {
+            console.log(data);
+            const juegosConImagenBase64 = data.map(juego => ({
+                ...juego,
+                Imagen: juego.Imagen.toString('base64')
+            }));
+            resp.json(juegosConImagenBase64);
+        }
+    });
+});
+
 app.get("/landingGamesLikes", (req, resp) => {
-    db.query("SELECT * FROM vista_juegos_reviews_likes WHERE Cantidad_Likes > 0 ORDER BY Cantidad_Likes DESC", (err, data) => {
+    const id = req.query.id;
+
+    db.query("SELECT * FROM vista_juegos_reviews_likes WHERE Cantidad_Likes > 0 ORDER BY Cantidad_Likes DESC ", (err, data) => {
         if (err) {
             resp.status(500).json({ error: "Error al obtener los juegos" });
         } else {
@@ -173,7 +258,7 @@ app.get("/landingGamesLikes", (req, resp) => {
 });
 
 app.get("/landingGamesCalif", (req, resp) => {
-    db.query("SELECT * FROM vista_juegos_reviews_likes WHERE Valor_Calificacion > 0 ORDER BY Valor_Calificacion DESC", (err, data) => {
+    db.query("SELECT * FROM vista_juegos_reviews_likes WHERE Valor_Calificacion > 0 ORDER BY Valor_Calificacion DESC LIMIT 3", (err, data) => {
         if (err) {
             resp.status(500).json({ error: "Error al obtener los juegos" });
         } else {
@@ -181,7 +266,7 @@ app.get("/landingGamesCalif", (req, resp) => {
                 ...juego,
                 Imagen: juego.Imagen.toString('base64')
             }));
-            
+
             console.log('Juego encontrado:' + juegosConImagenBase64);
             resp.json(juegosConImagenBase64);
         }
@@ -262,25 +347,25 @@ app.post("/register", (req, resp) => {
                 }
             } else {
                 db.query("SELECT * FROM usuarios WHERE Usuario=? AND Contraseña=?",
-                [usuario, contraseña],
-                (err, data)=>{
-                    if(err){
-                        resp.send(err);
-                    }else{
-                        if(data.length > 0){
-                            console.log("Usuario registrado con éxito.")
-                            resp.json({
-                                "id": data[0].ID_Usuario,
-                                "username": data[0].Usuario,
-                                "alert": 'Success'
-                            })
+                    [usuario, contraseña],
+                    (err, data) => {
+                        if (err) {
+                            resp.send(err);
+                        } else {
+                            if (data.length > 0) {
+                                console.log("Usuario registrado con éxito.")
+                                resp.json({
+                                    "id": data[0].ID_Usuario,
+                                    "username": data[0].Usuario,
+                                    "alert": 'Success'
+                                })
+                            }
+                            else {
+                                resp.json("'Las credenciales no son correctas, favor de intentar de nuevo'");
+                                console.log("El usuario ha fallado en el inicio de sesión")
+                            }
                         }
-                        else{
-                            resp.json("'Las credenciales no son correctas, favor de intentar de nuevo'");
-                            console.log("El usuario ha fallado en el inicio de sesión")
-                        }
-                    }
-                })
+                    })
             }
         });
 })
@@ -302,6 +387,24 @@ app.post("/createreview", (req, resp) => {
             }
         });
 });
+
+app.post("/likeReview", (req, res) => {
+    const userId = req.body.userId;
+    const reviewId = req.body.reviewId;
+
+    // Llamar al procedimiento almacenado InsertarLike
+    db.query('CALL sp_InsertarLike(?, ?)', [userId, reviewId], (err, data) => {
+        if (err) {
+            console.error('Error al registrar el like:', err);
+            // Si el procedimiento almacenado devuelve un error, devolver un error al cliente
+            res.status(500).json({ error: "Error al registrar el like" });
+        } else {
+            console.log('Like registrado con éxito');
+            res.json({ message: sqlMessage });
+        }
+    });
+});
+
 
 
 app.post("/editarUsuario", (req, resp) => {
