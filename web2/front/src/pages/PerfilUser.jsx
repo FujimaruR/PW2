@@ -30,9 +30,26 @@ const PerfilUser = () =>
         Genero: ''
     });
 
-    const [userDataGames, setUserDataGames] = useState([]);
+    const [userDataGames, setUserDataGames] = useState({      
+        ID_Juego: '',
+        Titulo:	'',
+        Fecha_Lanzamiento: '',
+        Desarrolladora:	'',
+        ID_Publicadora:	'',
+        Imagen:	imagenJuego,
+        Descripcion: '',	
+        ID_Review: '',
+        ID_Usuario:	'',
+        Fecha_Reseña: '',
+        Valor_Calificacion:	'',
+        Reseña:	'',
+        Usuario: '',	
+        Cantidad_Likes:	'',
+        ID_Usuario_Like: '',
+    });
 
     const [userDataGamesFav, setUserDataGamesFav] = useState([]);
+    const [userDataResenasFav, setUserDataResenasFav] = useState([]);
 
     const id = localStorage.getItem('userId');
 
@@ -45,11 +62,13 @@ const PerfilUser = () =>
                 setUserDataGames(userDataFromAPIJuego);
 
                 // Decodificar la imagen después de que los datos del usuario se hayan cargado completamente
-                const decodedImageStringJuego = decodeURIComponent(escape(atob(userDataFromAPIJuego.Imagen)));
+                const decodedImageStringJuego = userDataFromAPIJuego.Imagen ? decodeURIComponent(escape(atob(userDataFromAPIJuego.Imagen))) : null;
                 setImagenJuego(decodedImageStringJuego);
+
 
                 const formattedDateRese = new Date(userDataFromAPIJuego.Fecha_Reseña).toISOString().split('T')[0];
                 setFechaRese(formattedDateRese);
+
             })
             .catch(error => {
                 console.error('Error al obtener la información del perfil del usuario:', error);
@@ -71,6 +90,14 @@ const PerfilUser = () =>
             })
             .catch(error => {
                 console.error('Error al obtener la información del perfil del usuario:', error);
+            });
+
+            axios.get(`http://localhost:3001/perfilUsuarioLikes?id=${id}`)
+            .then(response => {
+                setUserDataResenasFav(response.data); // Asumimos que la respuesta es un array de juegos
+            })
+            .catch(error => {
+                console.error('Error fetching games:', error);
             });
     }, []);
 
@@ -119,11 +146,11 @@ const PerfilUser = () =>
                                 style={{ width: '97%', height: 'auto', borderRadius:'10px', marginTop: '5px' }}/>
                             </div>
                             <div className='col-md-12'>
-                                <h2 className='basic-text fs-4 mt-3'>{userDataGames.Titulo}</h2>
+                                <h2 className='basic-text fs-4 mt-3'>{userDataGames && userDataGames.Titulo ? userDataGames.Titulo : 'No se ha reseñado'}</h2>
                                 <p className='basic-text fs-5'>Reseña: </p>
-                                <p className='basic-text fs-5'>{userDataGames.Reseña}</p>
+                                <p className='basic-text fs-5'>{userDataGames && userDataGames.Reseña ? userDataGames.Reseña : null}</p>
                                 <p className='basic-text fs-5'>Fecha de la reseña: </p>
-                                <p className='basic-text fs-5'>{fechaRese}</p>
+                                <p className='basic-text fs-5'>{fechaRese ? fechaRese : null}</p>
                             </div>
                         </div>
                     </div>
@@ -154,13 +181,9 @@ const PerfilUser = () =>
                         <div className='col-md-12 row section_perfil mt-3'>
                             <h2 className='basic-text fs-4 mt-3'>Reseñas favoritas:</h2>
                             <div className='col-md-4'>
-                                <Card_Review_User></Card_Review_User>
-                            </div>
-                            <div className='col-md-4'>
-                                <Card_Review_User></Card_Review_User>
-                            </div>
-                            <div className='col-md-4'>
-                                <Card_Review_User></Card_Review_User>
+                            {userDataResenasFav.map((gamelike, index) => (
+                                <Card_Review_User key={index} gamelike={gamelike}/>
+                            ))}
                             </div>
                         </div>
 

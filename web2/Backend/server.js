@@ -85,6 +85,24 @@ app.get("/busqueda", (req, resp) => {
 
 });
 
+app.get("/busquedaUsuario", (req, resp) => {
+    const userParam = req.query.juego;
+
+    db.query("SELECT * FROM usuarios WHERE Usuario LIKE ? AND ID_Rol = 1", [`%${userParam}%`], (err, data) => {
+        if (err) {
+            resp.status(500).json({ error: "Error al obtener el usuario" });
+        } else {
+            // Convierte el Buffer de la imagen a una cadena base64
+            const usuarioConImagenBase64 = data.map(juego => ({
+                ...juego,
+                img: juego.img.toString('base64')
+            }));
+            resp.json(usuarioConImagenBase64);
+        }
+    });
+
+});
+
 app.get("/perfilUsuario", (req, resp) => {
     const idPerfil = req.query.id;
 
@@ -102,6 +120,29 @@ app.get("/perfilUsuario", (req, resp) => {
             const usuarioBase64 = data.map(usuario => ({
                 ...usuario,
                 img: usuario.img.toString('base64')
+            }));
+            resp.json(usuarioBase64);
+        }
+    });
+});
+
+app.get("/perfilUsuarioLikes", (req, resp) => {
+    const idPerfilLikes = req.query.id;
+
+    // Log para verificar el valor de idPerfil
+    console.log("ID de perfil recibido:", idPerfilLikes);
+
+    // Obtiene los datos de la base de datos, incluyendo la imagen como Buffer
+    db.query("SELECT * FROM vista_review_likesusuario WHERE ID_Usuario = ? ", [idPerfilLikes], (err, data) => {
+        if (err) {
+            console.error("Error al obtener el perfil del usuario:", err);
+            resp.status(500).json({ error: "Error al obtener el perfil del usuario" });
+        } else {
+            // Log para verificar los datos obtenidos de la base de datos
+            console.log("Datos de perfil obtenidos:", data);
+            const usuarioBase64 = data.map(usuario => ({
+                ...usuario,
+                Imagen: usuario.Imagen.toString('base64')
             }));
             resp.json(usuarioBase64);
         }
