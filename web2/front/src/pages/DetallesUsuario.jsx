@@ -1,5 +1,5 @@
 import React from 'react';
-import detallesUsuario_Card from '../components/detalles_usuario_card';
+import DetallesUsuario_Card from '../components/detalles_usuario_card';
 import Navbar from '../components/navbar';
 
 const DetallesUsuario = () => 
@@ -15,7 +15,7 @@ const DetallesUsuario = () =>
 
                 <div className='row mt-5 mb-5 d-flex align-items-center justify-content-center' style={{width: '100%', height: '100%', margin: '0px', padding: '0px'}}>
                     
-                    <detallesUsuario_Card></detallesUsuario_Card>
+                    <DetallesUsuario_Card></DetallesUsuario_Card>
                     
                 </div>
 

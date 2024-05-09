@@ -219,6 +219,28 @@ app.get("/DetallesJuego", (req, resp) => {
     });
 });
 
+app.get("/DetallesPerfil", (req, resp) => {
+    const id = req.query.id;
+
+    // Log para verificar el valor de idPerfil
+    console.log("ID de perfil recibido:", id);
+
+    // Obtiene los datos de la base de datos, incluyendo la imagen como Buffer
+    db.query("SELECT * FROM usuarios WHERE ID_Usuario = ? ", [id], (err, data) => {
+        if (err) {
+            console.error("Error al obtener el perfil del usuario:", err);
+            resp.status(500).json({ error: "Error al obtener el perfil del usuario" });
+        } else {
+            // Log para verificar los datos obtenidos de la base de datos
+            const juegoBase64 = data.map(juego => ({
+                ...juego,
+                img: juego.img.toString('base64')
+            }));
+            resp.json(juegoBase64);
+        }
+    });
+});
+
 
 app.post("/DeleteGame", (req, resp) => {
     const id = req.query.id;
@@ -245,6 +267,22 @@ app.get("/publishers", (req, resp) => {
             resp.status(500).json({ error: "Error al obtener los publishers" });
         } else {
             resp.json(data);
+        }
+    });
+});
+
+app.get("/userReviewGames", (req, resp) => {
+    const id = req.query.id;
+    
+    db.query("SELECT * FROM vista_juegos_reviews_likes where ID_Usuario = ? LIMIT 5", [id], (err, data) => {
+        if (err) {
+            resp.status(500).json({ error: "Error al obtener los juegos" });
+        } else {
+            const juegosConImagenBase64 = data.map(juego => ({
+                ...juego,
+                Imagen: juego.Imagen.toString('base64')
+            }));
+            resp.json(juegosConImagenBase64);
         }
     });
 });

@@ -6,53 +6,49 @@ import Card_Game from './card_game';
 import star from "../img/star.png";
 import '../css/login.css';
 import '../css/detallesJuego.css';
+import Card_Review_User from '../components/card_review_user';
 
 import axios from 'axios';
 
 
 const ShowUser_Card = () => {
 
-    const history = useNavigate();
-
     const location = useLocation();
+    const [fechaNaci, setFechaNaci] = useState(null);
     const searchParam = new URLSearchParams(location.search).get("id");
     const idUsuario = localStorage.getItem('id');
     const [imagenGame, setImagenGame] = useState([]);
-    const [gameData, setGameData] = useState({
+    const [userData, setUserData] = useState({
         searchedGame: searchParam
     });
 
-    const [reviewData, setReviewData] = useState([]);
-
-
-
-
-    const handleReview = () => {
-        history(`/CreateReview?id=${gameData.ID_Juego}`);
-    };
+    const [userDataResenasFav, setUserDataResenasFav] = useState([]);
 
 
     useEffect(() => {
 
-        axios.get(`http://localhost:3001/lastReviewGame?id=${searchParam}`)
-            .then(response => {
-                setReviewData(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching games:', error);
-            });
+        axios.get(`http://localhost:3001/userReviewGames?id=${searchParam}`)
+        .then(response => {
+            setUserDataResenasFav(response.data); // Asumimos que la respuesta es un array de juegos
+        })
+        .catch(error => {
+            console.error('Error fetching games:', error);
+        });
 
 
         // Hacer la solicitud GET al endpoint para obtener los datos del juego
-        axios.get(`http://localhost:3001/DetallesJuego?id=${searchParam}`)
+        axios.get(`http://localhost:3001/DetallesPerfil?id=${searchParam}`)
             .then(response => {
                 // Al recibir los datos, establecerlos en el estado
                 const gameDataFromAPI = response.data[0];
-                setGameData(gameDataFromAPI);
+                setUserData(gameDataFromAPI);
 
                 // Decodificar la imagen después de que los datos del usuario se hayan cargado completamente
-                const decodedImageString = decodeURIComponent(escape(atob(gameDataFromAPI.Imagen)));
+                const decodedImageString = decodeURIComponent(escape(atob(gameDataFromAPI.img)));
                 setImagenGame(decodedImageString);
+
+                const formattedDateNaci = new Date(gameDataFromAPI.Fecha_Nacimiento).toISOString().split('T')[0];
+                setFechaNaci(formattedDateNaci);
 
             })
             .catch(error => {
@@ -90,27 +86,27 @@ const ShowUser_Card = () => {
 
                             <div className='row'>
 
-                                <h1 className='basic-text' style={{ fontWeight: 'bolder' }}>{gameData.Titulo}</h1>
+                                <h1 className='basic-text' style={{ fontWeight: 'bolder' }}>{userData.Usuario}</h1>
 
                             </div>
 
                             <div className='row mt-3'>
 
                                 <p className='basic-text ' style={{ fontSize: '80%' }}>
-                                    Fecha de nacimiento:  <b>{gameData.Nombre_Categoria} </b>
+                                    Fecha de nacimiento:  <b>{fechaNaci} </b>
                                 </p>
 
                             </div>
 
                             <div className='row'>
 
-                                <h1 className='basic-text' style={{ fontSize: '80%' }}> Genero: <b>{gameData.Desarrolladora}</b></h1>
+                                <h1 className='basic-text' style={{ fontSize: '80%' }}> Genero: <b>{userData.Genero}</b></h1>
 
                             </div>
 
                             <div className='row mt-3'>
 
-                                <h2 className='basic-text ' style={{ fontSize: '120%' }} >Correo electronico: <b>{gameData.Descripcion}</b></h2>
+                                <h2 className='basic-text ' style={{ fontSize: '120%' }} >Correo electronico: <b>{userData.Correo_Electronico}</b></h2>
 
                             </div>
 
@@ -120,10 +116,8 @@ const ShowUser_Card = () => {
                                 </div>
 
                                 <div className='container mb-2 cards flex-row d-flex'>
-                                    {reviewData.map(game => (
-                                        <div key={game.ID_Juego} className='flex-row justify-content-center'>
-                                            <Card_Game game={game} />
-                                        </div>
+                                    {userDataResenasFav.map((gamelike, index) => (
+                                        <Card_Review_User key={index} gamelike={gamelike} className='flex-row justify-content-center'/>
                                     ))}
                                 </div>
 
