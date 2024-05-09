@@ -15,6 +15,7 @@ import EditarJuego from "./pages/EditarJuego";
 import DetallesJuego from "./pages/DetallesJuego";
 import BusquedaUsuario from "./pages/BusquedaUsuario";
 import BusquedaAdmin from "./pages/BusquedaAdmin";
+import ListaJuegos from "./pages/ListaJuegos";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
             <Route exact path="/DetallesJuego" element={<DetallesJuego />}/>
             <Route exact path="/BusquedaUsuario" element={<BusquedaUsuario />}/>
             <Route exact path="/BusquedaAdmin" element={<BusquedaAdmin />}/>
+            <Route exact path="/ListaJuegos" element={<ListaJuegos />}/>
         </Route>
       </Routes>
     </BrowserRouter>

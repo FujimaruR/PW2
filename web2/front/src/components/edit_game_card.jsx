@@ -44,7 +44,7 @@ const NewGame_Card = () => {
 
                 setSelectedCategoria(gameDataFromAPI.ID_Categoria);
                 setSelectedPublisher(gameDataFromAPI.ID_Publicadora);
-                
+
             })
             .catch(error => {
                 console.error('Error al obtener la información del juego:', error);
@@ -68,38 +68,64 @@ const NewGame_Card = () => {
         }
     };
 
+
+    const handleDelete = () => {
+
+        const confirmed = window.confirm('¿Estás seguro de que deseas eliminar este juego?');
+        if (confirmed) {
+            axios.post(`http://localhost:3001/DeleteGame?id=${searchParam}`)
+            .then(response => {
+                console.log(response.data);
+                alert('Juego eliminado exitosamente');
+                window.location.reload();
+            })
+            .catch(error => {
+                if (error.response && error.response.status === 400) {
+                    const errorMessage = error.response.data;
+                    alert(errorMessage);
+                } else {
+                    alert('Hubo un error al eliminar el juego. Por favor, intenta de nuevo más tarde.');
+                }
+            });
+        } else {
+            console.log('La eliminación del juego fue cancelada');
+        }
+
+
+    };
+
     const handleSubmit = (event) => {
         event.preventDefault();
 
-            // Validar que los campos no estén vacíos
-            if (!gameData.Titulo) {
-                alert('Por favor, ingresa el nombre del juego.');
-                return;
-            }
-            if (!gameData.Descripcion) {
-                alert('Por favor, ingresa la descripción del juego.');
-                return;
-            }
-            if (!gameData.Desarrolladora) {
-                alert('Por favor, ingresa el nombre de la desarrolladora.');
-                return;
-            }
-            if (!selectedPublisher) {
-                alert('Por favor, selecciona una publisher.');
-                return;
-            }
-            if (!selectedCategoria) {
-                alert('Por favor, selecciona una categoría.');
-                return;
-            }
-            if (!gameData.Fecha_Lanzamiento) {
-                alert('Por favor, selecciona la fecha de lanzamiento.');
-                return;
-            }
-            if (!imagenPerfil) {
-                alert('Por favor, selecciona una imagen para el juego.');
-                return;
-            }
+        // Validar que los campos no estén vacíos
+        if (!gameData.Titulo) {
+            alert('Por favor, ingresa el nombre del juego.');
+            return;
+        }
+        if (!gameData.Descripcion) {
+            alert('Por favor, ingresa la descripción del juego.');
+            return;
+        }
+        if (!gameData.Desarrolladora) {
+            alert('Por favor, ingresa el nombre de la desarrolladora.');
+            return;
+        }
+        if (!selectedPublisher) {
+            alert('Por favor, selecciona una publisher.');
+            return;
+        }
+        if (!selectedCategoria) {
+            alert('Por favor, selecciona una categoría.');
+            return;
+        }
+        if (!gameData.Fecha_Lanzamiento) {
+            alert('Por favor, selecciona la fecha de lanzamiento.');
+            return;
+        }
+        if (!imagenPerfil) {
+            alert('Por favor, selecciona una imagen para el juego.');
+            return;
+        }
 
         const updatedGameData = {
             ...gameData,
@@ -248,7 +274,7 @@ const NewGame_Card = () => {
                     </div>
 
                     <div className='d-flex col-md-12 text-center mb-2 mt-2'>
-                        {/*<ButtonSubmit type="button" name="btn_eliminar" id="btn_eliminar" value="Eliminar" />*/}
+                        <button type="button" name="btn_eliminar" id="btn_eliminar" value="Eliminar" onClick={handleDelete}  className='btn_submit '> Eliminar</button>
                         <ButtonSubmit type="submit" name="btn_submit" id="btn_submit" value="Editar" />
                     </div>|
 
