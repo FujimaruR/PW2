@@ -273,7 +273,7 @@ app.get("/publishers", (req, resp) => {
 
 app.get("/userReviewGames", (req, resp) => {
     const id = req.query.id;
-    
+
     db.query("SELECT * FROM vista_juegos_reviews_likes where ID_Usuario = ? LIMIT 5", [id], (err, data) => {
         if (err) {
             resp.status(500).json({ error: "Error al obtener los juegos" });
@@ -473,6 +473,22 @@ app.post("/createreview", (req, resp) => {
 
     db.query('INSERT INTO review (ID_Juego, ID_Usuario, Fecha_Reseña, Valor_Calificacion, Reseña) VALUES (?,?,?,?,?)',
         [juego, user, fecha, cali, resen],
+        (err, data) => {
+            if (err) {
+                console.log(err);
+            } else {
+                resp.send("Registrado con éxito");
+            }
+        });
+});
+
+app.post("/createLista", (req, resp) => {
+    const user = req.body.id;
+    const juego = req.body.idjuego;
+    const tipo = req.body.tipo;
+
+    db.query('CALL InsertarListas(?,?,?)',
+        [tipo, user, juego],
         (err, data) => {
             if (err) {
                 console.log(err);
