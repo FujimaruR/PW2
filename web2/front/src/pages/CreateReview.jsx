@@ -6,6 +6,7 @@ import ButtonSubmit from '../components/button_submit';
 import axios from 'axios';
 import LabelText from '../components/label_text';
 import Navbar from '../components/navbar';
+import Swal from 'sweetalert2';
 
 const CreateReview = () => {
 
@@ -46,16 +47,31 @@ const CreateReview = () => {
         })
             .then((response) => {
                 console.log(response);
-                alert("Reseña registrada con éxito.");
+                //alert("Reseña registrada con éxito.");
+                Swal.fire({
+                    title: "¡Reseña registrada!",
+                    text: "Reseña registrada con éxito.",
+                    icon: "success"
+                });
                 navigate('/LandingPage');
             })
             .catch((error) => {
                 console.error(error);
                 if (error.response && error.response.status === 400) {
                     const errorMessage = error.response.data;
-                    alert(errorMessage);
+                    //alert(errorMessage);
+                    Swal.fire({
+                        title: '¡Error!',
+                        text: errorMessage,
+                        icon: 'error'
+                    });
                 } else {
-                    alert('Hubo un error al registrar la reseña. Por favor, intenta de nuevo más tarde.');
+                    //alert('Hubo un error al registrar la reseña. Por favor, intenta de nuevo más tarde.');
+                    Swal.fire({
+                        title: '¡Error!',
+                        text: 'Hubo un error al registrar la reseña. Por favor, intenta de nuevo más tarde.',
+                        icon: 'error'
+                    });
                 }
             });
     };

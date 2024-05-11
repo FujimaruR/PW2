@@ -5,6 +5,7 @@ import LabelText from '../components/label_text';
 import ButtonSubmit from '../components/button_submit';
 import img4 from '../img/img_4.png';
 import axios from 'axios'; // Importa Axios
+import Swal from 'sweetalert2';
 
 const LoginCard = () => {
   const [username, setUsername] = useState('');
@@ -38,7 +39,12 @@ const LoginCard = () => {
           localStorage.setItem('userData', JSON.stringify(username));
           localStorage.setItem('userId', JSON.stringify(id));
           localStorage.setItem('Rol', JSON.stringify(rol));
-          alert("Se ha iniciado sesión correctamente");
+          //alert("Se ha iniciado sesión correctamente");
+          Swal.fire({
+            title: "¡Inicio de Sesión!",
+            text: "Se ha iniciado sesión correctamente.",
+            icon: "success"
+        });
           if (response.data.rol == 1)
             navigate('/LandingPage');
           else {
@@ -46,7 +52,12 @@ const LoginCard = () => {
           }
         } else {
           // Manejar la situación cuando las credenciales no son correctas
-          alert(response.data.alert);
+          //alert(response.data.alert);
+          Swal.fire({
+            title: '¡Error!',
+            text: response.data.alert,
+            icon: 'error'
+        });
         }
         /*localStorage.setItem('userData', JSON.stringify(username));
         localStorage.setItem('userId', JSON.stringify(id));

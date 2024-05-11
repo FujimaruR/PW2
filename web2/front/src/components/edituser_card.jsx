@@ -8,6 +8,7 @@ import img2 from '../img/img_2.png';
 import img3 from '../img/img_3.png';
 import img4 from '../img/img_4.png';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Edituser_card = () => {
     const navigate = useNavigate();
@@ -77,16 +78,31 @@ const Edituser_card = () => {
         axios.post('http://localhost:3001/editarUsuario', updatedUserData)
             .then(response => {
                 console.log('Datos de usuario editados con éxito:', response.data);
-                alert("Se ha modificado el perfil exitosamente")
+                //alert("Se ha modificado el perfil exitosamente");
+                Swal.fire({
+                    title: "¡Perfil modificado!",
+                    text: "Se ha modificado el perfil exitosamente",
+                    icon: "success"
+                });
                 window.location.reload();
             })
             .catch((error) => {
                 console.error(error);
                 if (error.response && error.response.status === 400) {
                     const errorMessage = error.response.data;
-                    alert(errorMessage);
+                    //alert(errorMessage);
+                    Swal.fire({
+                        title: '¡Error!',
+                        text: errorMessage,
+                        icon: 'error'
+                    });
                 } else {
-                    alert('Hubo un error al modificar el usuario. Por favor, intenta de nuevo más tarde.');
+                    //alert('Hubo un error al modificar el usuario. Por favor, intenta de nuevo más tarde.');
+                    Swal.fire({
+                        title: '¡Error!',
+                        text: 'Hubo un error al modificar el usuario. Por favor, intenta de nuevo más tarde.',
+                        icon: 'error'
+                    });
                 }
             });
     };

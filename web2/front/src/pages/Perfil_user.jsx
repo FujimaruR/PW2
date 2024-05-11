@@ -73,7 +73,15 @@ const Perfil_user = () =>
 
                     <div  className='col-md-9 row mt-2' style={{ marginBottom: '20px', marginLeft: '3px'}}>
                         <div className='col-md-12 row section_perfil'>
-                            <h2 className='basic-text fs-4 mt-3'>Juegos favoritos:</h2>
+                            <div className='row'>
+                                <div className='col-6'>
+                                    <h2 className='basic-text fs-4 mt-3'>Juegos favoritos:</h2>
+                                </div>
+                                <div className='col-6'>
+                                    <a style={{textDecoration: 'none'}}><h4 className='ver-mas-text fs-4'>Ver Más</h4></a>
+                                </div>
+                            </div>
+                            
                             <div className='col-md-4'>
                                 <Img_Card_User></Img_Card_User>
                             </div>

@@ -9,7 +9,7 @@ import img2 from '../img/img_2.png';
 import img3 from '../img/img_3.png';
 import img4 from '../img/img_4.png';
 import axios from 'axios';
-
+import Swal from 'sweetalert2';
 
 const NewGame_Card = () => {
     const navigate = useNavigate();
@@ -46,31 +46,66 @@ const NewGame_Card = () => {
 
             // Validar que los campos no estén vacíos
             if (!nombreJuego) {
-                alert('Por favor, ingresa el nombre del juego.');
+                //alert('Por favor, ingresa el nombre del juego.');
+                Swal.fire({
+                    title: '¡Error!',
+                    text: 'Por favor, ingresa el nombre del juego.',
+                    icon: 'error'
+                });
                 return;
             }
             if (!descripcionJuego) {
-                alert('Por favor, ingresa la descripción del juego.');
+                //alert('Por favor, ingresa la descripción del juego.');
+                Swal.fire({
+                    title: '¡Error!',
+                    text: 'Por favor, ingresa la descripción del juego.',
+                    icon: 'error'
+                });
                 return;
             }
             if (!desarrolladora) {
-                alert('Por favor, ingresa el nombre de la desarrolladora.');
+                //alert('Por favor, ingresa el nombre de la desarrolladora.');
+                Swal.fire({
+                    title: '¡Error!',
+                    text: 'Por favor, ingresa el nombre de la desarrolladora.',
+                    icon: 'error'
+                });
                 return;
             }
             if (!selectedPublisher) {
-                alert('Por favor, selecciona una publisher.');
+                //alert('Por favor, selecciona una publisher.');
+                Swal.fire({
+                    title: '¡Error!',
+                    text: 'Por favor, selecciona una publisher.',
+                    icon: 'error'
+                });
                 return;
             }
             if (!selectedCategoria) {
-                alert('Por favor, selecciona una categoría.');
+                //alert('Por favor, selecciona una categoría.');
+                Swal.fire({
+                    title: '¡Error!',
+                    text: 'Por favor, selecciona una categoría.',
+                    icon: 'error'
+                });
                 return;
             }
             if (!fechaLanzamiento) {
-                alert('Por favor, selecciona la fecha de lanzamiento.');
+                //alert('Por favor, selecciona la fecha de lanzamiento.');
+                Swal.fire({
+                    title: '¡Error!',
+                    text: 'Por favor, selecciona la fecha de lanzamiento.',
+                    icon: 'error'
+                });
                 return;
             }
             if (!imagenPerfil) {
-                alert('Por favor, selecciona una imagen para el juego.');
+                //alert('Por favor, selecciona una imagen para el juego.');
+                Swal.fire({
+                    title: '¡Error!',
+                    text: 'Por favor, selecciona una imagen para el juego.',
+                    icon: 'error'
+                });
                 return;
             }
 
@@ -86,15 +121,30 @@ const NewGame_Card = () => {
         })
             .then(response => {
                 console.log(response.data);
-                alert('Juego agregado exitosamente, para editarlo favor de buscarlo en la barra de navegación');
+                //alert('Juego agregado exitosamente, para editarlo favor de buscarlo en la barra de navegación');
+                Swal.fire({
+                    title: "¡Juego agregado!",
+                    text: "Juego agregado exitosamente, para editarlo favor de buscarlo en la barra de navegación",
+                    icon: "success"
+                });
                 window.location.reload();
             })
             .catch(error => {
                 if (error.response && error.response.status === 400) {
                     const errorMessage = error.response.data;
-                    alert(errorMessage);
+                    //alert(errorMessage);
+                    Swal.fire({
+                        title: '¡Error!',
+                        text: errorMessage,
+                        icon: 'error'
+                    });
                 } else {
-                    alert('Hubo un error al registrar el usuario. Por favor, intenta de nuevo más tarde.');
+                    //alert('Hubo un error al registrar el usuario. Por favor, intenta de nuevo más tarde.');
+                    Swal.fire({
+                        title: '¡Error!',
+                        text: 'Hubo un error al registrar el usuario. Por favor, intenta de nuevo más tarde.',
+                        icon: 'error'
+                    });
                 }
             });
     };

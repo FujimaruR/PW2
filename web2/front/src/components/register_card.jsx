@@ -8,6 +8,7 @@ import img2 from '../img/img_2.png';
 import img3 from '../img/img_3.png';
 import img4 from '../img/img_4.png';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const RegisterCard = () => {
     const navigate = useNavigate();
@@ -73,16 +74,31 @@ const RegisterCard = () => {
                 localStorage.setItem('userId', JSON.stringify(id));
                 navigate('/LandingPage');
             } else {
-                alert(response.data.alert);
+                //alert(response.data.alert);
+                Swal.fire({
+                    title: '¡Error!',
+                    text: response.data.alert,
+                    icon: 'error'
+                });
             }
         })
         .catch((error) => {
             console.error(error);
             if (error.response && error.response.status === 400) {
                 const errorMessage = error.response.data;
-                alert(errorMessage);
+                //alert(errorMessage);
+                Swal.fire({
+                    title: '¡Error!',
+                    text: errorMessage,
+                    icon: 'error'
+                });
             } else {
-                alert('Hubo un error al registrar el usuario. Por favor, intenta de nuevo más tarde.');
+                //alert('Hubo un error al registrar el usuario. Por favor, intenta de nuevo más tarde.');
+                Swal.fire({
+                    title: '¡Error!',
+                    text: 'Hubo un error al registrar el usuario. Por favor, intenta de nuevo más tarde.',
+                    icon: 'error'
+                });
             }
         });
     };
