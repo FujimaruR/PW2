@@ -70,8 +70,7 @@ app.get("/categorias", (req, resp) => {
 app.get("/busqueda", (req, resp) => {
     const juegoParam = req.query.juego;
 
-    // Obtiene los datos de la base de datos, incluyendo la imagen como Buffer
-    db.query("SELECT * FROM juegos WHERE titulo LIKE ?", [`%${juegoParam}%`], (err, data) => {
+    db.query("SELECT * FROM juegos WHERE titulo LIKE ? AND Estatus = 1", [`%${juegoParam}%`], (err, data) => {
         if (err) {
             resp.status(500).json({ error: "Error al obtener los juegos" });
         } else {
@@ -81,6 +80,24 @@ app.get("/busqueda", (req, resp) => {
                 Imagen: juego.Imagen.toString('base64')
             }));
             resp.json(juegosConImagenBase64);
+        }
+    });
+
+});
+
+app.get("/busquedaUsuario", (req, resp) => {
+    const userParam = req.query.juego;
+
+    db.query("SELECT * FROM usuarios WHERE Usuario LIKE ? AND ID_Rol = 1", [`%${userParam}%`], (err, data) => {
+        if (err) {
+            resp.status(500).json({ error: "Error al obtener el usuario" });
+        } else {
+            // Convierte el Buffer de la imagen a una cadena base64
+            const usuarioConImagenBase64 = data.map(juego => ({
+                ...juego,
+                img: juego.img.toString('base64')
+            }));
+            resp.json(usuarioConImagenBase64);
         }
     });
 
@@ -103,6 +120,29 @@ app.get("/perfilUsuario", (req, resp) => {
             const usuarioBase64 = data.map(usuario => ({
                 ...usuario,
                 img: usuario.img.toString('base64')
+            }));
+            resp.json(usuarioBase64);
+        }
+    });
+});
+
+app.get("/perfilUsuarioLikes", (req, resp) => {
+    const idPerfilLikes = req.query.id;
+
+    // Log para verificar el valor de idPerfil
+    console.log("ID de perfil recibido:", idPerfilLikes);
+
+    // Obtiene los datos de la base de datos, incluyendo la imagen como Buffer
+    db.query("SELECT * FROM vista_review_likesusuario WHERE ID_Usuario = ? ", [idPerfilLikes], (err, data) => {
+        if (err) {
+            console.error("Error al obtener el perfil del usuario:", err);
+            resp.status(500).json({ error: "Error al obtener el perfil del usuario" });
+        } else {
+            // Log para verificar los datos obtenidos de la base de datos
+            console.log("Datos de perfil obtenidos:", data);
+            const usuarioBase64 = data.map(usuario => ({
+                ...usuario,
+                Imagen: usuario.Imagen.toString('base64')
             }));
             resp.json(usuarioBase64);
         }
@@ -134,6 +174,93 @@ app.get("/EditJuego", (req, resp) => {
 });
 
 
+app.get("/VoteReview", (req, resp) => {
+    const id = req.query.id;
+
+    // Log para verificar el valor de idPerfil
+    console.log("ID de juego recibido:", id);
+
+    // Obtiene los datos de la base de datos, incluyendo la imagen como Buffer
+    db.query("SELECT * FROM vista_juegos_reviews_likes WHERE ID_Review = ? ", [id], (err, data) => {
+        if (err) {
+            console.error("Error al obtener la data de la review:", err);
+            resp.status(500).json({ error: "Error al obtener el la review:" });
+        } else {
+            // Log para verificar los datos obtenidos de la base de datos
+            console.log("Datos de review obtenidos:", data);
+            const reviewBase64 = data.map(juego => ({
+                ...juego,
+                Imagen: juego.Imagen.toString('base64')
+            }));
+            resp.json(reviewBase64);
+        }
+    });
+});
+
+app.get("/DetallesJuego", (req, resp) => {
+    const id = req.query.id;
+
+    // Log para verificar el valor de idPerfil
+    console.log("ID de juego recibido:", id);
+
+    // Obtiene los datos de la base de datos, incluyendo la imagen como Buffer
+    db.query("SELECT * FROM vista_juegos_info WHERE ID_Juego = ? ", [id], (err, data) => {
+        if (err) {
+            console.error("Error al obtener el perfil del usuario:", err);
+            resp.status(500).json({ error: "Error al obtener el perfil del usuario" });
+        } else {
+            // Log para verificar los datos obtenidos de la base de datos
+            const juegoBase64 = data.map(juego => ({
+                ...juego,
+                Imagen: juego.Imagen.toString('base64')
+            }));
+            resp.json(juegoBase64);
+        }
+    });
+});
+
+app.get("/DetallesPerfil", (req, resp) => {
+    const id = req.query.id;
+
+    // Log para verificar el valor de idPerfil
+    console.log("ID de perfil recibido:", id);
+
+    // Obtiene los datos de la base de datos, incluyendo la imagen como Buffer
+    db.query("SELECT * FROM usuarios WHERE ID_Usuario = ? ", [id], (err, data) => {
+        if (err) {
+            console.error("Error al obtener el perfil del usuario:", err);
+            resp.status(500).json({ error: "Error al obtener el perfil del usuario" });
+        } else {
+            // Log para verificar los datos obtenidos de la base de datos
+            const juegoBase64 = data.map(juego => ({
+                ...juego,
+                img: juego.img.toString('base64')
+            }));
+            resp.json(juegoBase64);
+        }
+    });
+});
+
+
+app.post("/DeleteGame", (req, resp) => {
+    const id = req.query.id;
+
+    // Log para verificar el valor de id
+    console.log("ID de juego recibido para eliminar:", id);
+
+    // Actualizar el estado del juego en la base de datos
+    db.query("UPDATE juegos SET Estatus = 0 WHERE ID_Juego = ?", [id], (err, result) => {
+        if (err) {
+            console.error("Error al actualizar el estado del juego:", err);
+            resp.status(500).json({ error: "Error al actualizar el estado del juego" });
+        } else {
+            console.log("Estado del juego actualizado correctamente");
+            resp.json({ message: "Estado del juego actualizado correctamente" });
+        }
+    });
+});
+
+
 app.get("/publishers", (req, resp) => {
     db.query("SELECT * FROM publisher", (err, data) => {
         if (err) {
@@ -144,8 +271,10 @@ app.get("/publishers", (req, resp) => {
     });
 });
 
-app.get("/landingGames", (req, resp) => {
-    db.query("SELECT * FROM vista_juegos_reviews_likes", (err, data) => {
+app.get("/userReviewGames", (req, resp) => {
+    const id = req.query.id;
+
+    db.query("SELECT * FROM vista_juegos_reviews_likes where ID_Usuario = ? LIMIT 5", [id], (err, data) => {
         if (err) {
             resp.status(500).json({ error: "Error al obtener los juegos" });
         } else {
@@ -158,8 +287,43 @@ app.get("/landingGames", (req, resp) => {
     });
 });
 
+app.get("/landingGames", (req, resp) => {
+    db.query("SELECT * FROM vista_juegos_reviews_likes LIMIT 5", (err, data) => {
+        if (err) {
+            resp.status(500).json({ error: "Error al obtener los juegos" });
+        } else {
+            const juegosConImagenBase64 = data.map(juego => ({
+                ...juego,
+                Imagen: juego.Imagen.toString('base64')
+            }));
+            resp.json(juegosConImagenBase64);
+        }
+    });
+});
+
+app.get("/lastReviewGame", (req, resp) => {
+
+    const id = req.query.id;
+    console.log("Juego requerido para reviews:" + id)
+
+    db.query("SELECT * FROM vista_juegos_reviews_likes WHERE ID_Juego = ? LIMIT 3", [id], (err, data) => {
+        if (err) {
+            resp.status(500).json({ error: "Error al obtener los juegos" });
+        } else {
+            console.log(data);
+            const juegosConImagenBase64 = data.map(juego => ({
+                ...juego,
+                Imagen: juego.Imagen.toString('base64')
+            }));
+            resp.json(juegosConImagenBase64);
+        }
+    });
+});
+
 app.get("/landingGamesLikes", (req, resp) => {
-    db.query("SELECT * FROM vista_juegos_reviews_likes WHERE Cantidad_Likes > 0 ORDER BY Cantidad_Likes DESC", (err, data) => {
+    const id = req.query.id;
+
+    db.query("SELECT * FROM vista_juegos_reviews_likes WHERE Cantidad_Likes > 0 ORDER BY Cantidad_Likes DESC ", (err, data) => {
         if (err) {
             resp.status(500).json({ error: "Error al obtener los juegos" });
         } else {
@@ -173,7 +337,7 @@ app.get("/landingGamesLikes", (req, resp) => {
 });
 
 app.get("/landingGamesCalif", (req, resp) => {
-    db.query("SELECT * FROM vista_juegos_reviews_likes WHERE Valor_Calificacion > 0 ORDER BY Valor_Calificacion DESC", (err, data) => {
+    db.query("SELECT * FROM vista_juegos_reviews_likes WHERE Valor_Calificacion > 0 ORDER BY Valor_Calificacion DESC LIMIT 3", (err, data) => {
         if (err) {
             resp.status(500).json({ error: "Error al obtener los juegos" });
         } else {
@@ -181,8 +345,23 @@ app.get("/landingGamesCalif", (req, resp) => {
                 ...juego,
                 Imagen: juego.Imagen.toString('base64')
             }));
-            
+
             console.log('Juego encontrado:' + juegosConImagenBase64);
+            resp.json(juegosConImagenBase64);
+        }
+    });
+});
+
+app.get("/obtenerResenaUsuarioRe", (req, resp) => {
+    const idPr = req.query.id;
+    db.query("SELECT * FROM vista_reviewsusuario WHERE ID_Usuario = ? ORDER BY Fecha_Reseña DESC LIMIT 1", [idPr], (err, data) => {
+        if (err) {
+            resp.status(500).json({ error: "Error al obtener la reseña" });
+        } else {
+            const juegosConImagenBase64 = data.map(juego => ({
+                ...juego,
+                Imagen: juego.Imagen.toString('base64')
+            }));
             resp.json(juegosConImagenBase64);
         }
     });
@@ -262,25 +441,25 @@ app.post("/register", (req, resp) => {
                 }
             } else {
                 db.query("SELECT * FROM usuarios WHERE Usuario=? AND Contraseña=?",
-                [usuario, contraseña],
-                (err, data)=>{
-                    if(err){
-                        resp.send(err);
-                    }else{
-                        if(data.length > 0){
-                            console.log("Usuario registrado con éxito.")
-                            resp.json({
-                                "id": data[0].ID_Usuario,
-                                "username": data[0].Usuario,
-                                "alert": 'Success'
-                            })
+                    [usuario, contraseña],
+                    (err, data) => {
+                        if (err) {
+                            resp.send(err);
+                        } else {
+                            if (data.length > 0) {
+                                console.log("Usuario registrado con éxito.")
+                                resp.json({
+                                    "id": data[0].ID_Usuario,
+                                    "username": data[0].Usuario,
+                                    "alert": 'Success'
+                                })
+                            }
+                            else {
+                                resp.json("'Las credenciales no son correctas, favor de intentar de nuevo'");
+                                console.log("El usuario ha fallado en el inicio de sesión")
+                            }
                         }
-                        else{
-                            resp.json("'Las credenciales no son correctas, favor de intentar de nuevo'");
-                            console.log("El usuario ha fallado en el inicio de sesión")
-                        }
-                    }
-                })
+                    })
             }
         });
 })
@@ -302,6 +481,40 @@ app.post("/createreview", (req, resp) => {
             }
         });
 });
+
+app.post("/createLista", (req, resp) => {
+    const user = req.body.id;
+    const juego = req.body.idjuego;
+    const tipo = req.body.tipo;
+
+    db.query('CALL InsertarListas(?,?,?)',
+        [tipo, user, juego],
+        (err, data) => {
+            if (err) {
+                console.log(err);
+            } else {
+                resp.send("Registrado con éxito");
+            }
+        });
+});
+
+app.post("/likeReview", (req, res) => {
+    const userId = req.body.userId;
+    const reviewId = req.body.reviewId;
+
+    // Llamar al procedimiento almacenado InsertarLike
+    db.query('CALL sp_InsertarLike(?, ?)', [userId, reviewId], (err, data) => {
+        if (err) {
+            console.error('Error al registrar el like:', err);
+            // Si el procedimiento almacenado devuelve un error, devolver un error al cliente
+            res.status(500).json({ error: "Error al registrar el like" });
+        } else {
+            console.log('Like registrado con éxito');
+            res.json({ message: sqlMessage });
+        }
+    });
+});
+
 
 
 app.post("/editarUsuario", (req, resp) => {

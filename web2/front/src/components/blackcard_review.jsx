@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import LabelText from '../components/label_text';
 import { Link } from 'react-router-dom';
-import Swal from 'sweetalert2';
 
 const Blackcard_review = ({ id }) => {
 

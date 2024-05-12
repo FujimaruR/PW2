@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import LabelText from '../components/label_text';
 import ButtonSubmit from '../components/button_submit';
+import axios from 'axios';
 import Card_Game from './card_game';
 import star from "../img/star.png";
 import '../css/login.css';
 import '../css/detallesJuego.css';
-
-import axios from 'axios';
 
 
 const NewGame_Card = () => {
@@ -23,12 +22,81 @@ const NewGame_Card = () => {
     });
 
     const [reviewData, setReviewData] = useState([]);
+    const [tipoLista, setTipoLista] = useState([]);
 
 
-
+    const [listData, setListData] = useState({
+        id: localStorage.getItem('userId'),
+        idjuego: new URLSearchParams(location.search).get("id"),
+        tipo: ''
+    });
 
     const handleReview = () => {
         history(`/CreateReview?id=${gameData.ID_Juego}`);
+    };
+
+    const handleFav = () => {
+        alert('Boton favorito');
+        const favorito = 1;
+        setTipoLista(favorito);
+        setListData(prevListData => ({
+            ...prevListData,
+            tipo: favorito
+        }));
+
+        console.error(listData);
+
+        createLis();
+    };
+
+    const handleTerminado = () => {
+        const favorito = 2;
+        setTipoLista(favorito);
+        setListData(prevListData => ({
+            ...prevListData,
+            tipo: favorito
+        }));
+
+        createLis();
+    };
+
+    const handleBackLog = () => {
+        const favorito = 3;
+        setTipoLista(favorito);
+        setListData(prevListData => ({
+            ...prevListData,
+            tipo: favorito
+        }));
+
+        createLis();
+    };
+
+    const handleAbandonados = () => {
+        const favorito = 4;
+        setTipoLista(favorito);
+        setListData(prevListData => ({
+            ...prevListData,
+            tipo: favorito
+        }));
+
+        createLis();
+    };
+
+    const createLis = () => {
+        axios.post('http://localhost:3001/createLista', listData)
+            .then((response) => {
+                console.log(response);
+                alert("Lista registrada con éxito.");
+            })
+            .catch((error) => {
+                console.error(error);
+                if (error.response && error.response.status === 400) {
+                    const errorMessage = error.response.data;
+                    alert(errorMessage);
+                } else {
+                    alert('Hubo un error al registrar la lista. Por favor, intenta de nuevo más tarde.');
+                }
+            });
     };
 
 
@@ -96,10 +164,10 @@ const NewGame_Card = () => {
                             <div className='row mt-1 d-flex justify-content-center align-items-center'>
 
                                 <div className='col-6  text-center mb-0'>
-                                    <ButtonSubmit type="submit" name="btn_agregarFav" id="btn_agregarFav" value="Favoritos" />
+                                    <button type="button" name="btn_agregarFav" id="btn_agregarFav" className="btn_submit mx-2" onClick={handleFav}>Favoritos</button>
                                 </div>
                                 <div className='col-6  text-center mb-0'>
-                                    <ButtonSubmit type="submit" name="btn_agregarTerminado" id="btn_agregarTerminado" value="Terminados" />
+                                    <button type="submit" name="btn_agregarTerminado" id="btn_agregarTerminado" className="btn_submit mx-2" onClick={handleTerminado}>Terminados</button>
                                 </div>
 
                             </div>
@@ -108,11 +176,11 @@ const NewGame_Card = () => {
                             <div className='row mt-2 d-flex justify-content-center align-items-center'>
 
                                 <div className='col-6  text-center mb-2'>
-                                    <ButtonSubmit type="submit" name="btn_agregarBack" id="btn_agregarBack" value="Backlog" />
+                                    <button type="submit" name="btn_agregarBack" id="btn_agregarBack" className="btn_submit mx-2" onClick={handleBackLog}>BackLog</button>
                                 </div>
 
                                 <div className='col-6  text-center mb-2'>
-                                    <ButtonSubmit type="submit" name="btn_agregarAbandonado" id="btn_agregarAbandonado" value="Abandonados" />
+                                    <button type="submit" name="btn_agregarAbandonado" id="btn_agregarAbandonado" className="btn_submit mx-2" onClick={handleAbandonados}>Abandonados</button>
                                 </div>
 
                             </div>

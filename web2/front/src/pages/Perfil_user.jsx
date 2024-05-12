@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Img_Card_User from '../components/img_card_user';
 import Card_Review_User from '../components/card_review_user';
 import List_card from '../components/list_card';
@@ -8,6 +8,8 @@ import InputText from '../components/input_text';
 import ButtonSubmit from '../components/button_submit';
 import styled from 'styled-components';
 import Navbar from '../components/navbar';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const StyledBody = styled.body`
     background-color: black !important;
@@ -18,6 +20,40 @@ const StyledBody = styled.body`
 
 const Perfil_user = () =>
 {
+    /*const [showErrorMessage, setShowErrorMessage] = useState(false);*/
+    const [imagenPerfil, setImagenPerfil] = useState(null);
+    const [userData, setUserData] = useState({
+        img: imagenPerfil,
+        id: localStorage.getItem('userId'),
+        Usuario: '',
+        Contraseña: '',
+        Nombre: '',
+        Apellido_P: '',
+        Fecha_Nacimiento: '',
+        Correo_Electronico: '',
+        Genero: ''
+    });
+
+    const id = localStorage.getItem('userId');
+
+
+    useEffect(() => {
+        axios.get(`http://localhost:3001/perfilUsuario?id=${id}`)
+            .then(response => {
+                // Al recibir los datos, establecerlos en el estado
+                const userDataFromAPI = response.data[0];
+                setUserData(userDataFromAPI);
+
+                // Decodificar la imagen después de que los datos del usuario se hayan cargado completamente
+                const decodedImageString = decodeURIComponent(escape(atob(userDataFromAPI.img)));
+                setImagenPerfil(decodedImageString);
+            })
+            .catch(error => {
+                console.error('Error al obtener la información del perfil del usuario:', error);
+            });
+    }, []);
+
+
     return(
         <StyledBody>
         <div className='' style={{width: '100%', height: '100%', margin: '0px !important;', padding: '0px'}}>
@@ -28,22 +64,22 @@ const Perfil_user = () =>
                     
                     <div className='col-md-12 row mt-3'>
                         <div className='col-md-2 text-center mt-2'>
-                            <img src={img_1} style={{ width: '60%', height: 'auto' }} />
+                            <img src={imagenPerfil ? imagenPerfil : img_1} style={{ width: '60%', height: 'auto' }} />
                         </div>
                         <div className='col-md-7 row mt-2'>
                             <div className='col-md-12 d-flex'>
                                 <LabelText text='Nombre de Usuario:'/>
-                                <InputText type='text'/>
+                                <InputText type='text' value={userData.Usuario} />
                             </div>
                            
                             <div className='col-md-12 d-flex'>
                                 <LabelText text='Fecha de Nacimiento:'/>
-                                <InputText type='date'/>
+                                <InputText type='date' value={userData.Fecha_Nacimiento} />
                             </div>
 
                             <div className='col-md-12 d-flex '>
                                 <LabelText text='Sexo:'/>
-                                <select className='Combo-Box' >
+                                <select className='Combo-Box' value={userData.Genero} >
                                     <option value="Masculino">Masculino</option>
                                     <option value="Femenino">Femenino</option>
                                     <option value="Otro">Otro</option>
