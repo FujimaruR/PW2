@@ -52,9 +52,16 @@ const PerfilUser = () =>
     const [userDataResenasFav, setUserDataResenasFav] = useState([]);
 
     const id = localStorage.getItem('userId');
+    const idFav = 1;
+    const idTerm = 2;
+    const idBL = 3;
+    const idAban = 4;
+    const [idTip, setidTip] = useState([]);
 
 
     useEffect(() => {
+        const idFav = 1;
+
         axios.get(`http://localhost:3001/obtenerResenaUsuarioRe?id=${id}`)
             .then(response => {
                 // Al recibir los datos, establecerlos en el estado
@@ -91,6 +98,33 @@ const PerfilUser = () =>
             .catch(error => {
                 console.error('Error al obtener la información del perfil del usuario:', error);
             });
+
+            axios.get(`http://localhost:3001/favUsuario?id=${id}&idFav=${idFav}`)
+            .then(response => {
+                // Al recibir los datos, establecerlos en el estado
+                const userDataGamesFromAPI = response.data;
+                setUserDataGamesFav(userDataGamesFromAPI);
+            })
+            .catch(error => {
+                console.error('Error al obtener la información del perfil del usuario:', error);
+            });
+
+            /*axios.get(`http://localhost:3001/listaUsuario?id=${id, idTip}`)
+            .then(response => {
+                // Al recibir los datos, establecerlos en el estado
+                const userDataFromAPI = response.data[0];
+                setUserData(userDataFromAPI);
+
+                // Decodificar la imagen después de que los datos del usuario se hayan cargado completamente
+                const decodedImageString = decodeURIComponent(escape(atob(userDataFromAPI.img)));
+                setImagenPerfil(decodedImageString);
+
+                const formattedDate = new Date(userDataFromAPI.Fecha_Nacimiento).toISOString().split('T')[0];
+                setfechaNac(formattedDate);
+            })
+            .catch(error => {
+                console.error('Error al obtener la información del perfil del usuario:', error);
+            });*/
 
             axios.get(`http://localhost:3001/perfilUsuarioLikes?id=${id}`)
             .then(response => {
@@ -166,15 +200,10 @@ const PerfilUser = () =>
                                     <a style={{textDecoration: 'none'}}><h4 className='ver-mas-text fs-4'>Ver Más</h4></a>
                                 </div>
                             </div>
-
                             <div className='col-md-4'>
-                                <Img_Card_User></Img_Card_User>
-                            </div>
-                            <div className='col-md-4'>
-                                <Img_Card_User></Img_Card_User>
-                            </div>
-                            <div className='col-md-4'>
-                                <Img_Card_User></Img_Card_User>
+                                {userDataGamesFav.map((game, indexu) => (
+                                <Img_Card_User key={indexu} game={game}/>
+                                ))}
                             </div>
                         </div>
 
