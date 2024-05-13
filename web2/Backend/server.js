@@ -135,7 +135,7 @@ app.get("/favUsuario", (req, resp) => {
     console.log("ID de tipo recibido:", idTipo);
 
     // Obtiene los datos de la base de datos, incluyendo la imagen como Buffer
-    db.query("SELECT * FROM vista_listas_juegos WHERE ID_Tipo = ? AND ID_Usuario = ? ", [idTipo, idPerfil], (err, data) => {
+    db.query("SELECT * FROM vista_listas_juegos WHERE ID_Tipo = ? AND ID_Usuario = ? LIMIT 3", [idTipo, idPerfil], (err, data) => {
         if (err) {
             console.error("Error al obtener la lista del usuario:", err);
             resp.status(500).json({ error: "Error al obtener la lista del usuario" });
@@ -153,13 +153,14 @@ app.get("/favUsuario", (req, resp) => {
 
 app.get("/listaUsuario", (req, resp) => {
     const idPerfil = req.query.id;
-    const idTipo = req.query.idTip;
+    const idTipo = req.query.idTipo;
 
     // Log para verificar el valor de idPerfil
-    console.log("ID de perfil recibido:", idPerfil);
+    console.log("ID de perfil lista recibido:", idPerfil);
+    console.log("ID de tipo lista recibido:", idTipo);
 
     // Obtiene los datos de la base de datos, incluyendo la imagen como Buffer
-    db.query("SELECT * FROM vista_listas_juegos WHERE ID_Tipo = ? AND ID_Usuario = ? ", [idPerfil, idTipo], (err, data) => {
+    db.query("SELECT * FROM vista_listas_juegos WHERE ID_Tipo = ? AND ID_Usuario = ? LIMIT 1", [idTipo, idPerfil], (err, data) => {
         if (err) {
             console.error("Error al obtener la lista del usuario:", err);
             resp.status(500).json({ error: "Error al obtener la lista del usuario" });

@@ -8,12 +8,13 @@ import InputText from '../components/input_text';
 import ButtonSubmit from '../components/button_submit';
 import styled from 'styled-components';
 import Navbar from '../components/navbar';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 
 const PerfilUser = () =>
 {
+    const navigate = useNavigate();
     const [fechaNac, setfechaNac] = useState(null);
     const [fechaRese, setFechaRese] = useState(null);
     const [imagenPerfil, setImagenPerfil] = useState(null);
@@ -52,11 +53,14 @@ const PerfilUser = () =>
     const [userDataResenasFav, setUserDataResenasFav] = useState([]);
 
     const id = localStorage.getItem('userId');
-    const idFav = 1;
-    const idTerm = 2;
-    const idBL = 3;
-    const idAban = 4;
-    const [idTip, setidTip] = useState([]);
+
+    const handleEdit = () => {
+        navigate('/EditPerfil');
+    };
+
+    const handleBack = () => {
+        navigate('/LandingPage');
+    };
 
 
     useEffect(() => {
@@ -109,23 +113,6 @@ const PerfilUser = () =>
                 console.error('Error al obtener la información del perfil del usuario:', error);
             });
 
-            /*axios.get(`http://localhost:3001/listaUsuario?id=${id, idTip}`)
-            .then(response => {
-                // Al recibir los datos, establecerlos en el estado
-                const userDataFromAPI = response.data[0];
-                setUserData(userDataFromAPI);
-
-                // Decodificar la imagen después de que los datos del usuario se hayan cargado completamente
-                const decodedImageString = decodeURIComponent(escape(atob(userDataFromAPI.img)));
-                setImagenPerfil(decodedImageString);
-
-                const formattedDate = new Date(userDataFromAPI.Fecha_Nacimiento).toISOString().split('T')[0];
-                setfechaNac(formattedDate);
-            })
-            .catch(error => {
-                console.error('Error al obtener la información del perfil del usuario:', error);
-            });*/
-
             axios.get(`http://localhost:3001/perfilUsuarioLikes?id=${id}`)
             .then(response => {
                 setUserDataResenasFav(response.data); // Asumimos que la respuesta es un array de juegos
@@ -167,8 +154,8 @@ const PerfilUser = () =>
                             </div>
                         </div>
                         <div className='col-md-3 text-center mt-2'>
-                            <ButtonSubmit type='button' value='Editar'/><br />
-                            <ButtonSubmit type='button' value='Volver'/>
+                            <button type='button' name="btn_editar" id="btn_editar" className="btn_submit mx-2" onClick={handleEdit}>Editar</button><br />
+                            <button type='button' name="btn_volver" id="btn_volver" className="btn_submit mx-2" onClick={handleBack}>Volver</button>
                         </div>
                     </div>
 
@@ -219,13 +206,13 @@ const PerfilUser = () =>
                         <div className='col-md-12 row section_perfil mt-3'>
                             <h2 className='basic-text fs-4 mt-3'>Listas:</h2>
                             <div className='col-md-4'>
-                                <List_card></List_card>
+                                <List_card number={2}></List_card>
                             </div>
                             <div className='col-md-4'>
-                                <List_card></List_card>
+                                <List_card number={3}></List_card>
                             </div>
                             <div className='col-md-4'>
-                                <List_card></List_card>
+                                <List_card number={4}></List_card>
                             </div>
                         </div>
                         

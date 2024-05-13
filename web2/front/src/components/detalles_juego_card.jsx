@@ -167,7 +167,7 @@ const NewGame_Card = () => {
                                     <button type="button" name="btn_agregarFav" id="btn_agregarFav" className="btn_submit mx-2" onClick={handleFav}>Favoritos</button>
                                 </div>
                                 <div className='col-6  text-center mb-0'>
-                                    <button type="submit" name="btn_agregarTerminado" id="btn_agregarTerminado" className="btn_submit mx-2" onClick={handleTerminado}>Terminados</button>
+                                    <button type="button" name="btn_agregarTerminado" id="btn_agregarTerminado" className="btn_submit mx-2" onClick={handleTerminado}>Terminados</button>
                                 </div>
 
                             </div>
@@ -176,11 +176,11 @@ const NewGame_Card = () => {
                             <div className='row mt-2 d-flex justify-content-center align-items-center'>
 
                                 <div className='col-6  text-center mb-2'>
-                                    <button type="submit" name="btn_agregarBack" id="btn_agregarBack" className="btn_submit mx-2" onClick={handleBackLog}>BackLog</button>
+                                    <button type="button" name="btn_agregarBack" id="btn_agregarBack" className="btn_submit mx-2" onClick={handleBackLog}>BackLog</button>
                                 </div>
 
                                 <div className='col-6  text-center mb-2'>
-                                    <button type="submit" name="btn_agregarAbandonado" id="btn_agregarAbandonado" className="btn_submit mx-2" onClick={handleAbandonados}>Abandonados</button>
+                                    <button type="button" name="btn_agregarAbandonado" id="btn_agregarAbandonado" className="btn_submit mx-2" onClick={handleAbandonados}>Abandonados</button>
                                 </div>
 
                             </div>
