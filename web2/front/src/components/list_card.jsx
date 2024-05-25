@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import '../css/review.css';
 import '../css/login.css';
 import trash from '../img/trash-can.png';
@@ -55,7 +56,9 @@ const List_card = ({ number }) => //componente de registro
             </div>
 
             <div className='col-12 mt-3 '>
-                <a style={{textDecoration: 'none'}}><h4 className='ver-mas-text fs-4'>Ver Lista</h4></a>
+            <Link to={`/ListaJuegos?Type=${number}`} className='ver-mas-text fs-4' style={{ textDecoration: 'none'}}>
+            Ver Lista
+            </Link>
             </div>
             
         </div>

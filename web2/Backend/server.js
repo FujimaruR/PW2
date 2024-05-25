@@ -176,6 +176,31 @@ app.get("/listaUsuario", (req, resp) => {
     });
 });
 
+app.get("/listaUsuarioBusqueda", (req, resp) => {
+    const idPerfil = req.query.id;
+    const idTipo = req.query.idTipo;
+
+    // Log para verificar el valor de idPerfil
+    console.log("ID de perfil lista recibido:", idPerfil);
+    console.log("ID de tipo lista recibido:", idTipo);
+
+    // Obtiene los datos de la base de datos, incluyendo la imagen como Buffer
+    db.query("SELECT * FROM vista_listas_juegos WHERE ID_Tipo = ? AND ID_Usuario = ?", [idTipo, idPerfil], (err, data) => {
+        if (err) {
+            console.error("Error al obtener la lista del usuario:", err);
+            resp.status(500).json({ error: "Error al obtener la lista del usuario" });
+        } else {
+            // Log para verificar los datos obtenidos de la base de datos
+            console.log("Datos de lista obtenidos:", data);
+            const usuarioBase64 = data.map(usuario => ({
+                ...usuario,
+                Imagen: usuario.Imagen.toString('base64')
+            }));
+            resp.json(usuarioBase64);
+        }
+    });
+});
+
 app.get("/perfilUsuarioLikes", (req, resp) => {
     const idPerfilLikes = req.query.id;
 

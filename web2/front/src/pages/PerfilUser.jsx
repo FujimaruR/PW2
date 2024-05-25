@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Img_Card_User from '../components/img_card_user';
 import Card_Review_User from '../components/card_review_user';
 import List_card from '../components/list_card';
@@ -12,8 +13,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 
-const PerfilUser = () =>
-{
+const PerfilUser = () => {
     const navigate = useNavigate();
     const [fechaNac, setfechaNac] = useState(null);
     const [fechaRese, setFechaRese] = useState(null);
@@ -31,21 +31,21 @@ const PerfilUser = () =>
         Genero: ''
     });
 
-    const [userDataGames, setUserDataGames] = useState({      
+    const [userDataGames, setUserDataGames] = useState({
         ID_Juego: '',
-        Titulo:	'',
+        Titulo: '',
         Fecha_Lanzamiento: '',
-        Desarrolladora:	'',
-        ID_Publicadora:	'',
-        Imagen:	imagenJuego,
-        Descripcion: '',	
+        Desarrolladora: '',
+        ID_Publicadora: '',
+        Imagen: imagenJuego,
+        Descripcion: '',
         ID_Review: '',
-        ID_Usuario:	'',
+        ID_Usuario: '',
         Fecha_Reseña: '',
-        Valor_Calificacion:	'',
-        Reseña:	'',
-        Usuario: '',	
-        Cantidad_Likes:	'',
+        Valor_Calificacion: '',
+        Reseña: '',
+        Usuario: '',
+        Cantidad_Likes: '',
         ID_Usuario_Like: '',
     });
 
@@ -86,7 +86,7 @@ const PerfilUser = () =>
             });
 
 
-            axios.get(`http://localhost:3001/perfilUsuario?id=${id}`)
+        axios.get(`http://localhost:3001/perfilUsuario?id=${id}`)
             .then(response => {
                 // Al recibir los datos, establecerlos en el estado
                 const userDataFromAPI = response.data[0];
@@ -103,7 +103,7 @@ const PerfilUser = () =>
                 console.error('Error al obtener la información del perfil del usuario:', error);
             });
 
-            axios.get(`http://localhost:3001/favUsuario?id=${id}&idFav=${idFav}`)
+        axios.get(`http://localhost:3001/favUsuario?id=${id}&idFav=${idFav}`)
             .then(response => {
                 // Al recibir los datos, establecerlos en el estado
                 const userDataGamesFromAPI = response.data;
@@ -113,7 +113,7 @@ const PerfilUser = () =>
                 console.error('Error al obtener la información del perfil del usuario:', error);
             });
 
-            axios.get(`http://localhost:3001/perfilUsuarioLikes?id=${id}`)
+        axios.get(`http://localhost:3001/perfilUsuarioLikes?id=${id}`)
             .then(response => {
                 setUserDataResenasFav(response.data); // Asumimos que la respuesta es un array de juegos
             })
@@ -122,30 +122,30 @@ const PerfilUser = () =>
             });
     }, []);
 
-    return(
-        <div className='' style={{width: '100%', height: '100%', margin: '0px !important;', padding: '0px'}}>
+    return (
+        <div className='' style={{ width: '100%', height: '100%', margin: '0px !important;', padding: '0px' }}>
             <Navbar></Navbar>
-            
+
             <div className='container justify-content-center align-items-center mx-auto porfile_card' style={{ padding: '0px', marginTop: '10px' }}>
-                <div className='row justify-content-center mx-auto d-flex' style={{width: '100%',  padding: '0px', margin:'0px'}}>
-                    
+                <div className='row justify-content-center mx-auto d-flex' style={{ width: '100%', padding: '0px', margin: '0px' }}>
+
                     <div className='col-md-12 row mt-3'>
                         <div className='col-md-2 text-center mt-2'>
                             <img src={imagenPerfil ? imagenPerfil : img_1} style={{ width: '60%', height: 'auto' }} />
                         </div>
                         <div className='col-md-7 row mt-2'>
                             <div className='col-md-12 d-flex'>
-                                <LabelText text='Nombre de Usuario:'/>
-                                <InputText type='text' value={userData.Usuario}/>
+                                <LabelText text='Nombre de Usuario:' />
+                                <InputText type='text' value={userData.Usuario} />
                             </div>
-                           
+
                             <div className='col-md-12 d-flex'>
-                                <LabelText text='Fecha de Nacimiento:'/>
-                                <InputText type='date' value={fechaNac}/>
+                                <LabelText text='Fecha de Nacimiento:' />
+                                <InputText type='date' value={fechaNac} />
                             </div>
 
                             <div className='col-md-12 d-flex '>
-                                <LabelText text='Sexo:'/>
+                                <LabelText text='Sexo:' />
                                 <select className='Combo-Box' value={userData.Genero}>
                                     <option value="Masculino">Masculino</option>
                                     <option value="Femenino">Femenino</option>
@@ -160,11 +160,11 @@ const PerfilUser = () =>
                     </div>
 
                     <div className='col-md-3 mt-2' style={{ backgroundColor: '#2c2b3d', borderRadius: '20px', minHeight: '100%', marginBottom: '20px', marginRight: '2px', marginLeft: '7px' }}>
-                        <h2 className='basic-text fs-4 mt-3' style={{marginBottom: '20px'}}>Reseña más reciente:</h2>
+                        <h2 className='basic-text fs-4 mt-3' style={{ marginBottom: '20px' }}>Reseña más reciente:</h2>
                         <div className='card-new-review-user justify-content-center align-items-center mx-auto d-flex row' >
                             <div className='col-md-12 justify-content-center align-items-center  d-flex'>
-                                <img src={imagenJuego} alt="" 
-                                style={{ width: '97%', height: 'auto', borderRadius:'10px', marginTop: '5px' }}/>
+                                <img src={imagenJuego} alt=""
+                                    style={{ width: '97%', height: 'auto', borderRadius: '10px', marginTop: '5px' }} />
                             </div>
                             <div className='col-md-12'>
                                 <h2 className='basic-text fs-4 mt-3'>{userDataGames && userDataGames.Titulo ? userDataGames.Titulo : 'No se ha reseñado'}</h2>
@@ -176,7 +176,7 @@ const PerfilUser = () =>
                         </div>
                     </div>
 
-                    <div  className='col-md-9 row mt-2' style={{ marginBottom: '20px', marginLeft: '3px'}}>
+                    <div className='col-md-9 row mt-2' style={{ marginBottom: '20px', marginLeft: '3px' }}>
                         <div className='col-md-12 row section_perfil'>
 
                             <div className='row'>
@@ -184,12 +184,14 @@ const PerfilUser = () =>
                                     <h2 className='basic-text fs-4 mt-3'>Juegos favoritos:</h2>
                                 </div>
                                 <div className='col-2 mt-3 '>
-                                    <a style={{textDecoration: 'none'}}><h4 className='ver-mas-text fs-4'>Ver Más</h4></a>
+                                    <Link to={`/ListaJuegos?Type=${1}`} className='ver-mas-text fs-4' style={{ textDecoration: 'none' }}>
+                                        Ver Lista
+                                    </Link>
                                 </div>
                             </div>
                             <div className='col-md-4'>
                                 {userDataGamesFav.map((game, indexu) => (
-                                <Img_Card_User key={indexu} game={game}/>
+                                    <Img_Card_User key={indexu} game={game} />
                                 ))}
                             </div>
                         </div>
@@ -197,9 +199,9 @@ const PerfilUser = () =>
                         <div className='col-md-12 row section_perfil mt-3'>
                             <h2 className='basic-text fs-4 mt-3'>Reseñas favoritas:</h2>
                             <div className='col-md-4'>
-                            {userDataResenasFav.map((gamelike, index) => (
-                                <Card_Review_User key={index} gamelike={gamelike}/>
-                            ))}
+                                {userDataResenasFav.map((gamelike, index) => (
+                                    <Card_Review_User key={index} gamelike={gamelike} />
+                                ))}
                             </div>
                         </div>
 
@@ -215,12 +217,12 @@ const PerfilUser = () =>
                                 <List_card number={4}></List_card>
                             </div>
                         </div>
-                        
+
                     </div>
 
                 </div>
             </div>
-           
+
         </div>
     );
 };
