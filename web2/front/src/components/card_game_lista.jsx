@@ -21,24 +21,28 @@ const Card_Game_Lista = ({ game }) => {
     const handleEditClick = () => {
         history(`/DetallesJuego?id=${game.ID_Juego}`);
     };
+
     const handleDeleteClick = () => {
         const idGame = game.ID_Juego;
-        setListData(prevListData => ({
-            ...prevListData,
+        const updatedListData = {
+            ...listData,
             idjuego: idGame
-        }));
-        deleteLis();
+        };
+        setListData(updatedListData);
+        deleteLis(updatedListData);
     };
 
     // Generamos un id único para el botón de edición
     const verMas = `btn_editar_${game.ID_Juego}`;
     const eliminarLista = `btn_eliminar_${game.ID_Juego}`;
 
-    const deleteLis = () => {
-        axios.post('http://localhost:3001/deleteLista', listData)
+    const deleteLis = (data) => {
+        axios.post('http://localhost:3001/deleteLista', data)
             .then((response) => {
                 console.log(response);
                 alert("Juego borrado de la lista con éxito.");
+
+                navigate('/PerfilUser');
             })
             .catch((error) => {
                 console.error(error);
