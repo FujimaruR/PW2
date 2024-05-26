@@ -22,6 +22,11 @@ const Card_Game_Lista = ({ game }) => {
         history(`/DetallesJuego?id=${game.ID_Juego}`);
     };
     const handleDeleteClick = () => {
+        const idGame = game.ID_Juego;
+        setListData(prevListData => ({
+            ...prevListData,
+            idjuego: idGame
+        }));
         deleteLis();
     };
 

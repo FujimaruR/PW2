@@ -36,7 +36,6 @@ const NewGame_Card = () => {
     };
 
     const handleFav = () => {
-        alert('Boton favorito');
         const favorito = 1;
         setTipoLista(favorito);
         setListData(prevListData => ({

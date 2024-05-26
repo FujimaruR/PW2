@@ -584,7 +584,7 @@ app.post("/deleteLista", (req, resp) => {
             if (err) {
                 console.log(err);
             } else {
-                resp.send("Registrado con éxito");
+                resp.send("Eliminado con éxito");
             }
         });
 });
