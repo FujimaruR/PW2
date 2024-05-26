@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LabelText from '../components/label_text';
 import Navbar from '../components/navbar';
+import hampterTriste from '../img/HampterTriste.jpg';
 
 const Error404 = ({errorFeo}) => {
 
@@ -22,7 +23,7 @@ const Error404 = ({errorFeo}) => {
                     </center>
                     <div>
                         <center>
-                            <img src="https://ih0.redbubble.net/image.5469123472.4528/raf,360x360,075,t,fafafa:ca443f4786.jpg" alt="Error Image" style={{ maxWidth: '100%', height: 'auto' }} />
+                            <img src={hampterTriste} alt="Error Image" style={{ maxWidth: '100%', height: 'auto' }} />
                         </center>
                     </div>
                 </div>
