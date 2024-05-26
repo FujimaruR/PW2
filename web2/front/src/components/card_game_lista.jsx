@@ -9,6 +9,7 @@ const Card_Game_Lista = ({ game }) => {
 
     const history = useNavigate();
     const location = useLocation();
+    const navigate = useNavigate();
 
     const decodedImageString = decodeURIComponent(escape(atob(game.Imagen)));
 
