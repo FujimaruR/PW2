@@ -573,6 +573,22 @@ app.post("/createLista", (req, resp) => {
         });
 });
 
+app.post("/deleteLista", (req, resp) => {
+    const user = req.body.id;
+    const juego = req.body.idjuego;
+    const tipo = req.body.tipo;
+
+    db.query('CALL DeleteListas(?,?,?)',
+        [tipo, user, juego],
+        (err, data) => {
+            if (err) {
+                console.log(err);
+            } else {
+                resp.send("Registrado con éxito");
+            }
+        });
+});
+
 app.post("/likeReview", (req, res) => {
     const userId = req.body.userId;
     const reviewId = req.body.reviewId;

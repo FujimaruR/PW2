@@ -1,25 +1,50 @@
-import React from 'react';
-import { useHistory, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import '../css/review.css';
 import '../css/login.css';
 import '../css/resultadosBusquedaAdmin.css';
+import axios from 'axios';
 
 const Card_Game_Lista = ({ game }) => {
 
     const history = useNavigate();
+    const location = useLocation();
 
     const decodedImageString = decodeURIComponent(escape(atob(game.Imagen)));
+
+    const [listData, setListData] = useState({
+        id: localStorage.getItem('userId'),
+        idjuego: '',
+        tipo: new URLSearchParams(location.search).get("Type")
+    });
 
     const handleEditClick = () => {
         history(`/DetallesJuego?id=${game.ID_Juego}`);
     };
     const handleDeleteClick = () => {
-        history(`/DetallesJuego?id=${game.ID_Juego}`);
+        deleteLis();
     };
 
     // Generamos un id único para el botón de edición
     const verMas = `btn_editar_${game.ID_Juego}`;
     const eliminarLista = `btn_eliminar_${game.ID_Juego}`;
+
+    const deleteLis = () => {
+        axios.post('http://localhost:3001/deleteLista', listData)
+            .then((response) => {
+                console.log(response);
+                alert("Juego borrado de la lista con éxito.");
+            })
+            .catch((error) => {
+                console.error(error);
+                if (error.response && error.response.status === 400) {
+                    const errorMessage = error.response.data;
+                    alert(errorMessage);
+                } else {
+                    alert('Hubo un error al borrar de la lista. Por favor, intenta de nuevo más tarde.');
+                }
+            });
+    };
 
     return (
         <div className='card-game-admin' style={{ width: '100%', height: '100%', marginBottom: '' }}>
