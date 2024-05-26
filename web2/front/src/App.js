@@ -17,6 +17,7 @@ import BusquedaUsuario from "./pages/BusquedaUsuario";
 import BusquedaAdmin from "./pages/BusquedaAdmin";
 import ListaJuegos from "./pages/ListaJuegos";
 import DetallesUsuario from "./pages/DetallesUsuario";
+import Error404 from "./pages/Error404";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
             <Route exact path="/BusquedaAdmin" element={<BusquedaAdmin />}/>
             <Route exact path="/ListaJuegos" element={<ListaJuegos />}/>
             <Route exact path="/DetallesUsuario" element={<DetallesUsuario />}/>
+            <Route exact path="/Error404" element={<Error404 />}/>
         </Route>
       </Routes>
     </BrowserRouter>
