@@ -92,16 +92,17 @@ app.get("/busquedaUsuario", (req, resp) => {
         if (err) {
             resp.status(500).json({ error: "Error al obtener el usuario" });
         } else {
-            // Convierte el Buffer de la imagen a una cadena base64
-            const usuarioConImagenBase64 = data.map(juego => ({
-                ...juego,
-                img: juego.img.toString('base64')
+            // Convierte el Buffer de la imagen a una cadena base64 si no es nulo
+            const usuarioConImagenBase64 = data.map(usuario => ({
+                ...usuario,
+                img: usuario.img ? usuario.img.toString('base64') : null
             }));
             resp.json(usuarioConImagenBase64);
         }
     });
-
 });
+
+
 
 app.get("/perfilUsuario", (req, resp) => {
     const idPerfil = req.query.id;
@@ -496,8 +497,8 @@ app.post("/register", (req, resp) => {
     }
 
     // Llama al procedimiento almacenado sp_AltaUsuario
-    db.query('CALL sp_AltaUsuario(?, ?, ?, ?, ?, ?, ?)',
-        [nombre, apellidoP, fechaNacimiento, genero, correo, usuario, contraseña],
+    db.query('CALL sp_AltaUsuario(?, ?, ?, ?, ?, ?, ?, ?)',
+        [nombre, apellidoP, fechaNacimiento, genero, correo, usuario, contraseña, imagenPerfil],
         (err, data) => {
             if (err) {
                 console.log(err);
@@ -593,15 +594,21 @@ app.post("/likeReview", (req, res) => {
     const userId = req.body.userId;
     const reviewId = req.body.reviewId;
 
-    // Llamar al procedimiento almacenado InsertarLike
+    // Call the stored procedure InsertarLike
     db.query('CALL sp_InsertarLike(?, ?)', [userId, reviewId], (err, data) => {
         if (err) {
-            console.error('Error al registrar el like:', err);
-            // Si el procedimiento almacenado devuelve un error, devolver un error al cliente
-            res.status(500).json({ error: "Error al registrar el like" });
+            if (err.code === 'ER_SIGNAL_EXCEPTION' && err.sqlMessage === 'El usuario ya ha dado like a esta reseña') {
+                console.error('Error al registrar el like:', err.sqlMessage);
+                // Specific response for the user already liked case
+                res.status(400).json({ error: "El usuario ya ha dado like a esta reseña" });
+            } else {
+                console.error('Error al registrar el like:', err);
+                // General error response
+                res.status(500).json({ error: "Error al registrar el like" });
+            }
         } else {
             console.log('Like registrado con éxito');
-            res.json({ message: sqlMessage });
+            res.json({ message: "Like registrado con éxito" });
         }
     });
 });

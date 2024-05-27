@@ -52,6 +52,16 @@ const RegisterCard = () => {
             return;
         }
 
+
+        if (!imagenPerfil) {
+            Swal.fire({
+                title: '¡Error!',
+                text: 'Por favor, selecciona una imagen para el juego.',
+                icon: 'error'
+            });
+            return;
+        }
+
         setErrorMessage('');
         registerUser();
     };
@@ -65,6 +75,7 @@ const RegisterCard = () => {
             fechaNacimiento: dateOfBirth,
             genero: gender,
             correo: correo,
+            imagenPerfil: imagenPerfil
         })
         .then((response) => {
             console.log(response);

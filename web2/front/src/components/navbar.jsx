@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import '../css/navbar.css';
 import '../css/login.css';
 import img_1 from '../img/img_1.png';
@@ -19,30 +20,31 @@ const Navbar = () => {
     };
 
     const handleSearch = () => {
-        const searchText = document.getElementById('search').value
+        const searchText = document.getElementById('search').value;
+        if (!searchText) {
+            Swal.fire({
+                title: 'Error',
+                text: 'Por favor ingrese un término de búsqueda',
+                icon: 'warning',
+                confirmButtonText: 'Aceptar'
+            });
+            return;
+        }
         // Redirigir a la página de búsqueda con el parámetro de búsqueda
-       if( Rol == 2){
-        navigate(`/BusquedaAdmin?juego=${searchText}`);
-       }
-    else
-    {
-        navigate(`/BusquedaUsuario?juego=${searchText}`);
-    }
+        if (Rol == 2) {
+            navigate(`/BusquedaAdmin?juego=${searchText}`);
+        } else {
+            navigate(`/BusquedaUsuario?juego=${searchText}`);
+        }
     };
 
     const handleProfile = () => {
-        if (Rol == 2){
-        navigate('/EditPerfil');
-        }
-        else{
-            navigate('/PerfilUser')
+        if (Rol == 2) {
+            navigate('/EditPerfil');
+        } else {
+            navigate('/PerfilUser');
         }
     };
-
-
-    //    <span className="navbar-text text-labels">
-    //      {username && `¡Hola, ${username}!`}
-    //    </span>
 
     return (
         <div className='Nav-Bar'>
@@ -52,12 +54,10 @@ const Navbar = () => {
                     <a className="navbar-brand text-labels" href="/">Tilted Reviews</a>
                 </div>
 
-                <div className='col-8 col-sm-6  d-flex justify-content-center align-items-center ' style={{ paddingLeft: '15%' }} >
-
+                <div className='col-8 col-sm-6 d-flex justify-content-center align-items-center' style={{ paddingLeft: '15%' }}>
                     {localStorage.getItem('Rol') !== '1' ? (
                         <input
                             type="text"
-                            name=""
                             id="search"
                             className="input-search-nav"
                             style={{ width: '80%' }}
@@ -66,31 +66,25 @@ const Navbar = () => {
                     ) : (
                         <input
                             type="text"
-                            name=""
                             id="search"
                             className="input-search-nav"
                             style={{ width: '80%' }}
                             placeholder="¿Buscando algún juego o usuario en específico?"
                         />
                     )}
-                   <button type="button" className='button-search-nav' onClick={handleSearch}>
+                    <button type="button" className='button-search-nav' onClick={handleSearch}>
                         <img src={lupa} alt="" style={{ width: '100%', height: 'auto' }} />
                     </button>
                 </div>
 
-
                 <div className='d-flex col-2 col-sm-4 justify-content-end'>
-                    
-                {localStorage.getItem('Rol') !== '1' ? (
-                       <button className="btn_submit mx-2" onClick={handleProfile}>Editar Perfil</button>
+                    {localStorage.getItem('Rol') !== '1' ? (
+                        <button className="btn_submit mx-2" onClick={handleProfile}>Editar Perfil</button>
                     ) : (
                         <button className="btn_submit mx-2" onClick={handleProfile}>Mi Perfil</button>
                     )}
-                    
-                    
                     <button className="btn_submit mx-2" onClick={handleLogout}>Cerrar Sesión</button>
                 </div>
-
             </nav>
         </div>
     );

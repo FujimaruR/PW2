@@ -106,7 +106,6 @@ const NewGame_Card = () => {
             console.log('La eliminación del juego fue cancelada');
         }
 
-
     };
 
     const handleSubmit = (event) => {
@@ -338,13 +337,10 @@ const NewGame_Card = () => {
 
                     </div>
 
-                    <div className='col-md-6 text-center mb-3 mt-2'>
-                        <button type="button" name="btn_eliminar" id="btn_eliminar" value="Eliminar" onClick={handleDelete}  className='btn_submit'> Eliminar</button>
-                    </div>
-                   
-                    <div className='col-md-6 text-center mb-3 mt-2'>
+                    <div className='d-flex col-md-12 text-center mb-2 mt-2'>
+                        <button type="button" name="btn_eliminar" id="btn_eliminar" value="Eliminar" onClick={handleDelete}  className='btn_submit '> Eliminar</button>
                         <ButtonSubmit type="submit" name="btn_submit" id="btn_submit" value="Editar" />
-                    </div>
+                    </div>|
 
                 </form>
             </div>

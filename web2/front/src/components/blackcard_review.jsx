@@ -40,23 +40,29 @@ const Blackcard_review = ({ id }) => {
                 reviewId: idReseña
             });
             console.log('Respuesta del servidor:', response.data);
-            //alert('¡Se ha registrado el like con éxito!');
             Swal.fire({
                 title: "¡Like registrado!",
                 text: "¡Se ha registrado el like con éxito!",
                 icon: "success"
             });
-
         } catch (error) {
-            console.error('Error al enviar el like:', error);
-            //alert('Ha ocurrido un error al registrar el like, contacta a administración.');
-            Swal.fire({
-                title: '¡Error!',
-                text: "Ha ocurrido un error al registrar el like, contacta a administración.",
-                icon: 'error'
-              });
+            if (error.response && error.response.data && error.response.data.error === "El usuario ya ha dado like a esta reseña") {
+                Swal.fire({
+                    title: '¡Error!',
+                    text: "El usuario ya ha dado like a esta reseña",
+                    icon: 'error'
+                });
+            } else {
+                console.error('Error al enviar el like:', error);
+                Swal.fire({
+                    title: '¡Error!',
+                    text: "Ha ocurrido un error al registrar el like, contacta a administración.",
+                    icon: 'error'
+                });
+            }
         }
     };
+    
     
 
     return (
