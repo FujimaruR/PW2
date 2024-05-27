@@ -39,7 +39,7 @@ const ListaJuegos = () => {
                     <h1 className='label-text-login mb-4'> Terminados </h1>
                     <div className='container cards-C'>
 
-                        <div className='card-C d-flex justify-content-center'>
+                        <div className='cards-C d-flex justify-content-center'>
                             {userDataGamesLis.map(game => (
                                 <div key={game.ID_Juego} className='card-C d-flex justify-content-center'>
                                     <Card_Game_Lista game={game} />
