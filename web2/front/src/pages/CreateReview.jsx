@@ -32,6 +32,31 @@ const CreateReview = () => {
 
         // Validar que los campos no estén vacíos
         if (!username || !juego || !resena) {
+            Swal.fire({
+                title: '¡Error!',
+                text: 'Porfavor agrege texto en su reseña.',
+                icon: 'error'
+            });
+            setShowErrorMessage(true);
+            return;
+        }
+
+        if(!calificacion){
+            Swal.fire({
+                title: '¡Error!',
+                text: 'Porfavor agregue una calificacion a su reseña.',
+                icon: 'error'
+            });
+            setShowErrorMessage(true);
+            return;
+        }
+
+        if(calificacion < 0 || calificacion > 10){
+            Swal.fire({
+                title: '¡Error!',
+                text: 'Porfavor ingrese una calificacion entre 0 y 10.',
+                icon: 'error'
+            });
             setShowErrorMessage(true);
             return;
         }
