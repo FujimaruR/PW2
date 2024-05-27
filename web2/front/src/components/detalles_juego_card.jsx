@@ -138,6 +138,7 @@ const NewGame_Card = () => {
                 const decodedImageString = decodeURIComponent(escape(atob(gameDataFromAPI.Imagen)));
                 setImagenGame(decodedImageString);
 
+
             })
             .catch(error => {
                 console.error('Error al obtener la información del juego:', error);
@@ -153,6 +154,8 @@ const NewGame_Card = () => {
             </div>
         );
     }
+
+
 
 
     return (

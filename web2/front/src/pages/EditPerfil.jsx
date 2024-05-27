@@ -2,9 +2,22 @@ import React from 'react';
 import Edituser_card from '../components/edituser_card';
 import LabelText from '../components/label_text';
 import Navbar from '../components/navbar';
+import { useNavigate } from 'react-router-dom';
 
 const EditPerfil = () => 
 {
+
+    
+    const navigate = useNavigate();
+
+    const userRole = localStorage.getItem('Rol');
+
+ 
+    if(!userRole){
+        navigate('/Login')
+    }
+
+
     return(
         <div className='' style={{width: '100%', height: '100vh', margin: '0px', padding: '0px'}}>
             <Navbar></Navbar>

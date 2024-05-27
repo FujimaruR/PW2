@@ -5,6 +5,7 @@ import Card_Game_Likes from '../components/card_game_likes';
 import Sidebar_games from '../components/sidebar_games';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Error404 from './Error404.jsx';
 
 const LandingPage = () => {
     const [games, setGames] = useState([]);
@@ -37,6 +38,26 @@ const LandingPage = () => {
                 console.error('Error fetching games:', error);
             });
     }, []);
+
+    const navigate = useNavigate();
+
+    const userRole = localStorage.getItem('Rol');
+
+ 
+    if(!userRole){
+        navigate('/Login')
+    }
+
+    if(userRole == 2){
+        return (
+            <div className='' style={{ width: '100%', height: '100%', margin: '0px', padding: '0px' }}>
+                <Navbar />
+                <Error404 errorFeo="Tu eres un administrador, no deberias estar aquí" />
+            </div>
+        );
+    }
+
+    
 
     return(
         <div className='col-12 col-md-12 Fondo row' style={{ margin: '0px' }}>

@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ColumnasBusqueda from '../components/search_results_user';
 import Navbar from '../components/navbar';
 import axios from 'axios';
 import Card_Game_Search from '../components/card_game_search';
 import Card_User_Search from '../components/card_user_search';
 import '../css/resultadosBusqueda.css';
+import Error404 from './Error404';
 
 const ResultadosBusqueda = () => 
 {
@@ -13,6 +14,7 @@ const ResultadosBusqueda = () =>
     const [users, setUsers] = useState([]);
     const location = useLocation();
     const searchParam = new URLSearchParams(location.search).get("juego");
+    const history = useNavigate();
 
     useEffect(() => {
         // Realizar la solicitud al servidor para obtener los juegos que coincidan con el parámetro de búsqueda
@@ -33,6 +35,23 @@ const ResultadosBusqueda = () =>
                 console.error('Error al cargar los juegos:', error);
             });
     }, [searchParam]);
+
+    const userRole = localStorage.getItem('Rol');
+
+    if(!userRole){
+        history('/Login')
+    }
+
+    if(userRole == 2){
+        return (
+            <div className='' style={{ width: '100%', height: '100%', margin: '0px', padding: '0px' }}>
+                <Navbar />
+                <Error404 errorFeo="Tu eres un administrador, no deberias estar aquí" />
+            </div>
+        );
+    }
+
+
 
     return(
         <div className='' style={{width: '100%', height: '100%', margin: '0px', padding: '0px'}}>

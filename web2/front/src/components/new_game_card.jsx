@@ -127,7 +127,9 @@ const NewGame_Card = () => {
                     text: "Juego agregado exitosamente, para editarlo favor de buscarlo en la barra de navegación",
                     icon: "success"
                 });
-                window.location.reload();
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
             })
             .catch(error => {
                 if (error.response && error.response.status === 400) {

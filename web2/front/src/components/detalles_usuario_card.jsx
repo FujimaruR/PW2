@@ -7,6 +7,7 @@ import star from "../img/star.png";
 import '../css/login.css';
 import '../css/detallesJuego.css';
 import Card_Review_User from '../components/card_review_user';
+import Error404 from '../pages/Error404';
 
 import axios from 'axios';
 
@@ -21,43 +22,54 @@ const ShowUser_Card = () => {
     const [userData, setUserData] = useState({
         searchedGame: searchParam
     });
-
     const [userDataResenasFav, setUserDataResenasFav] = useState([]);
+    const [error, setError] = useState(null);
 
 
     useEffect(() => {
 
         axios.get(`http://localhost:3001/userReviewGames?id=${searchParam}`)
-        .then(response => {
-            setUserDataResenasFav(response.data); // Asumimos que la respuesta es un array de juegos
-        })
-        .catch(error => {
-            console.error('Error fetching games:', error);
-        });
+            .then(response => {
+                setUserDataResenasFav(response.data); // Asumimos que la respuesta es un array de juegos
+            })
+            .catch(error => {
+                console.error('Error fetching games:', error);
+            });
 
 
         // Hacer la solicitud GET al endpoint para obtener los datos del juego
         axios.get(`http://localhost:3001/DetallesPerfil?id=${searchParam}`)
             .then(response => {
-                // Al recibir los datos, establecerlos en el estado
-                const gameDataFromAPI = response.data[0];
-                setUserData(gameDataFromAPI);
+                if (response.data.length === 0) {
+                    setError("No se ha encontrado información de este número de perfil.");
+                    return;
+                }
+                const userDataFromAPI = response.data[0];
+                setUserData(userDataFromAPI);
 
-                // Decodificar la imagen después de que los datos del usuario se hayan cargado completamente
-                const decodedImageString = decodeURIComponent(escape(atob(gameDataFromAPI.img)));
+                const decodedImageString = decodeURIComponent(escape(atob(userDataFromAPI.img)));
                 setImagenGame(decodedImageString);
 
-                const formattedDateNaci = new Date(gameDataFromAPI.Fecha_Nacimiento).toISOString().split('T')[0];
+                const formattedDateNaci = new Date(userDataFromAPI.Fecha_Nacimiento).toISOString().split('T')[0];
                 setFechaNaci(formattedDateNaci);
-
             })
             .catch(error => {
-                console.error('Error al obtener la información del juego:', error);
+                console.error('Error al obtener la información del usuario:', error);
+                setError('Hubo un error al obtener la información del usuario.'); 
             });
-    }, []);
+    }, [searchParam]);
 
+    if (error) {
+        return (
+            <div className='' style={{ width: '100%', height: '100%', margin: '0px', padding: '0px' }}>
+                <Error404 errorFeo={error} />
+            </div>
+        );
+    }
 
     return (
+
+        
         <div className='d-flex justify-content-center align-items-center' style={{ height: '100%', width: '100%', margin: '0px', padding: '0px' }}>
 
             <div className='container detail_card' style={{ height: '100%', width: '100%', margin: '0', padding: '0' }} >
@@ -117,7 +129,7 @@ const ShowUser_Card = () => {
 
                                 <div className='container mb-2 cards flex-row d-flex'>
                                     {userDataResenasFav.map((gamelike, index) => (
-                                        <Card_Review_User key={index} gamelike={gamelike} className='flex-row justify-content-center'/>
+                                        <Card_Review_User key={index} gamelike={gamelike} className='flex-row justify-content-center' />
                                     ))}
                                 </div>
 

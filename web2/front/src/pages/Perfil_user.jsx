@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import Navbar from '../components/navbar';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Error404 from './Error404.jsx';
 
 const StyledBody = styled.body`
     background-color: black !important;
@@ -52,6 +53,28 @@ const Perfil_user = () =>
                 console.error('Error al obtener la información del perfil del usuario:', error);
             });
     }, []);
+
+
+     
+    const navigate = useNavigate();
+
+    const userRole = localStorage.getItem('Rol');
+
+ 
+    if(!userRole){
+        navigate('/Login')
+    }
+
+    if(userRole == 2){
+        return (
+            <div className='' style={{ width: '100%', height: '100%', margin: '0px', padding: '0px' }}>
+                <Navbar />
+                <Error404 errorFeo="Tu eres un administrador, no deberias estar aquí" />
+            </div>
+        );
+    }
+
+
 
 
     return(

@@ -7,6 +7,7 @@ import axios from 'axios';
 import LabelText from '../components/label_text';
 import Navbar from '../components/navbar';
 import Swal from 'sweetalert2';
+import Error404 from './Error404';
 
 const CreateReview = () => {
 
@@ -23,6 +24,8 @@ const CreateReview = () => {
     const [tituloJuego, settituloJuego] = useState(null);
     const [desarrolladora, setdesarrolladora] = useState(null);
     const [showErrorMessage, setShowErrorMessage] = useState(false);
+    const [error, setError] = useState(null);
+
 
     const handleRegister = (e) => {
         e.preventDefault();
@@ -96,6 +99,16 @@ const CreateReview = () => {
         axios.get(`http://localhost:3001/ShowJuegoR?id=${searchParam}`)
             .then(response => {
                 const gameDataFromAPI = response.data[0];
+                if (response.data.length === 0) {
+                    setError("No se ha encontrado información de este juego.");
+                    return;
+                }
+
+                if(gameDataFromAPI.Estatus.data[0] == 0){
+                    setError("Este juego ha sido eliminado entonces ya no se puede reseñar.");
+                    return;
+                }
+
                 const decodedImageString = decodeURIComponent(escape(atob(gameDataFromAPI.Imagen)));
                 setImagenPerfil(decodedImageString);
                 settituloJuego(gameDataFromAPI.Titulo);
@@ -107,65 +120,105 @@ const CreateReview = () => {
 
     }, []);
 
-    return (
-        <div className='' style={{ width: '100%', height: '100vh', margin: '0px', padding: '0px' }}>
-            <Navbar></Navbar>
-            <div className='container black-card-creview  mt-3'>
-                <form onSubmit={handleRegister}>
-                    <div className='row'>
-                        <div className='col-md-12 row mt-4' >
-                            <div className='col-md-8 d-flex justify-content-center align-items-center' >
-                                <div>
-                                    <h3 className='create-review-t1'>Haz una reseña:</h3>
-                                    <p className='create-review-text1'>¡El mundo quiere saber tu opinión!</p>
-                                </div>
-                            </div>
-                            <div className='col-md-2'></div>
-                            <div className='col-md-2 d-flex  justify-content-center align-items-center'>
-                                <button type="button" name="btn_volver" id="btn_volver" className="btn_submit mx-2" onClick={handleBack}>Volver</button>
-                            </div>
-                        </div>
-                        <div className='col-md-12 d-flex justify-content-center align-items-center mb-3'>
-                            <div className='container-create-review mt-3 row'>
-                                <div className='col-md-3 mt-3 '>
-                                    <img src={imagenPerfil}
-                                        className='img-review mb-1' style={{ width: '95%', maxWidth: '150px' }} />
-                                    <p style={{ color: 'white', fontFamily: 'Arial, Helvetica, sans-serif' }}>By: {desarrolladora}</p>
-                                </div>
-                                <div className='col-md-9 mt-3'>
-                                    <h3 className='create-review-t1'>{tituloJuego}</h3>
-                                    <textarea name="" id="" className='input-create-review' placeholder='¡Ingresa tu reseña!' value={resena} onChange={(e) => setResena(e.target.value)}></textarea>
-                                    {showErrorMessage && <p style={{ color: 'red' }}>Por favor llene todos los campos</p>}
-                                </div>
-                                <div className='col-md-6'></div>
-                                <div className='col-md-6 d-flex align-items-center justify-content-center mt-2 mb-2'>
-                                    <p style={{ color: 'white', fontFamily: 'Arial, Helvetica, sans-serif', margin: '0px' }}>Ingresa una puntuación:</p>
-                                    <input
-                                        type="text"
-                                        name="score-review"
-                                        id="score-review"
-                                        className='score-review'
-                                        value={calificacion}
-                                        onChange={(e) => {
-                                            let inputValue = e.target.value;
-                                            inputValue = inputValue.replace(/\D/g, '');
-                                            if (inputValue !== '' && (inputValue < 1 || inputValue > 10)) {
-                                                inputValue = '';
-                                            }
-                                            setCalificacion(inputValue);
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div className='col-md-12 text-center mt-2'>
-                            <ButtonSubmit type="submit" name="btn_submit" id="btn_submit" value="Reseñar" />
-                        </div>
-                    </div>
-                </form>
+
+    
+  const userRole = localStorage.getItem('Rol');
+
+ 
+    if(!userRole){
+        navigate('/Login')
+    }
+
+    if(userRole == 2){
+        return (
+            <div className='' style={{ width: '100%', height: '100%', margin: '0px', padding: '0px' }}>
+                <Navbar />
+                <Error404 errorFeo="Tu eres un administrador, no deberias estar aquí" />
             </div>
-        </div>
-    );
+        );
+    }
+
+
+
+    if (error) {
+        return (
+            <div className='' style={{ width: '100%', height: '100%', margin: '0px', padding: '0px' }}>
+                <Navbar></Navbar>
+                <Error404 errorFeo={error} />
+            </div>
+        );
+    }
+
+
+    if (searchParam) {
+        return (
+            <div className='' style={{ width: '100%', height: '100vh', margin: '0px', padding: '0px' }}>
+                <Navbar></Navbar>
+                <div className='container black-card-creview  mt-3'>
+                    <form onSubmit={handleRegister}>
+                        <div className='row'>
+                            <div className='col-md-12 row mt-4' >
+                                <div className='col-md-8 d-flex justify-content-center align-items-center' >
+                                    <div>
+                                        <h3 className='create-review-t1'>Haz una reseña:</h3>
+                                        <p className='create-review-text1'>¡El mundo quiere saber tu opinión!</p>
+                                    </div>
+                                </div>
+                                <div className='col-md-2'></div>
+                                <div className='col-md-2 d-flex  justify-content-center align-items-center'>
+                                    <button type="button" name="btn_volver" id="btn_volver" className="btn_submit mx-2" onClick={handleBack}>Volver</button>
+                                </div>
+                            </div>
+                            <div className='col-md-12 d-flex justify-content-center align-items-center mb-3'>
+                                <div className='container-create-review mt-3 row'>
+                                    <div className='col-md-3 mt-3 '>
+                                        <img src={imagenPerfil}
+                                            className='img-review mb-1' style={{ width: '95%', maxWidth: '150px' }} />
+                                        <p style={{ color: 'white', fontFamily: 'Arial, Helvetica, sans-serif' }}>By: {desarrolladora}</p>
+                                    </div>
+                                    <div className='col-md-9 mt-3'>
+                                        <h3 className='create-review-t1'>{tituloJuego}</h3>
+                                        <textarea name="" id="" className='input-create-review' placeholder='¡Ingresa tu reseña!' value={resena} onChange={(e) => setResena(e.target.value)}></textarea>
+                                        {showErrorMessage && <p style={{ color: 'red' }}>Por favor llene todos los campos</p>}
+                                    </div>
+                                    <div className='col-md-6'></div>
+                                    <div className='col-md-6 d-flex align-items-center justify-content-center mt-2 mb-2'>
+                                        <p style={{ color: 'white', fontFamily: 'Arial, Helvetica, sans-serif', margin: '0px' }}>Ingresa una puntuación:</p>
+                                        <input
+                                            type="text"
+                                            name="score-review"
+                                            id="score-review"
+                                            className='score-review'
+                                            value={calificacion}
+                                            onChange={(e) => {
+                                                let inputValue = e.target.value;
+                                                inputValue = inputValue.replace(/\D/g, '');
+                                                if (inputValue !== '' && (inputValue < 1 || inputValue > 10)) {
+                                                    inputValue = '';
+                                                }
+                                                setCalificacion(inputValue);
+                                            }}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='col-md-12 text-center mt-2'>
+                                <ButtonSubmit type="submit" name="btn_submit" id="btn_submit" value="Reseñar" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        );
+    }
+    else {
+        return (
+            <div className='' style={{ width: '100%', height: '100%', margin: '0px', padding: '0px' }}>
+                <Navbar />
+                <Error404 errorFeo="Ha habido un error, por favor contacta a administración." />
+            </div>
+        );
+    }
 };
 
 export default CreateReview;

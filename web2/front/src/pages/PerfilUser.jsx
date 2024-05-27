@@ -12,6 +12,7 @@ import Navbar from '../components/navbar';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import '../css/perfilUsuario.css';
+import Error404 from './Error404.jsx';
 
 
 const PerfilUser = () => {
@@ -122,6 +123,24 @@ const PerfilUser = () => {
                 console.error('Error fetching games:', error);
             });
     }, []);
+
+
+    const userRole = localStorage.getItem('Rol');
+
+ 
+    if(!userRole){
+        navigate('/Login')
+    }
+
+    if(userRole == 2){
+        return (
+            <div className='' style={{ width: '100%', height: '100%', margin: '0px', padding: '0px' }}>
+                <Navbar />
+                <Error404 errorFeo="Tu eres un administrador, no deberias estar aquí" />
+            </div>
+        );
+    }
+
 
     return (
         <div className='' style={{ width: '100%', height: '100%', margin: '0px !important;', padding: '0px' }}>

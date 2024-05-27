@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import NewGame_Card from '../components/new_game_card';
 import LabelText from '../components/label_text';
 import Navbar from '../components/navbar';
+import Error404 from './Error404';
 
 const NuevoJuego = () => {
     const navigate = useNavigate();
@@ -15,6 +16,25 @@ const NuevoJuego = () => {
             navigate('/login');
         }
     }, [navigate]);
+
+
+    const userRole = localStorage.getItem('Rol');
+
+   
+    if(!userRole){
+        navigate('/Login')
+    }
+
+
+    if(userRole == 1){
+        return (
+            <div className='' style={{ width: '100%', height: '100%', margin: '0px', padding: '0px' }}>
+                <Navbar />
+                <Error404 errorFeo="Tu eres un mortal, no deberias estar aquí" />
+            </div>
+        );
+    }
+
 
     return (
         <div className='' style={{width: '100%', height: '100vh', margin: '0px', padding: '0px'}}>

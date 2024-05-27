@@ -84,7 +84,6 @@ const Edituser_card = () => {
                     text: "Se ha modificado el perfil exitosamente",
                     icon: "success"
                 });
-                window.location.reload();
             })
             .catch((error) => {
                 console.error(error);

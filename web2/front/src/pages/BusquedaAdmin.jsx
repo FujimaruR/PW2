@@ -1,15 +1,17 @@
 import React, {useState, useEffect} from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate} from 'react-router-dom';
 import ColumnaBusqueda from '../components/search_results_juego';
 import Navbar from '../components/navbar';
 import Card_Game_Admin from '../components/card_game_admin.jsx'
 import axios from 'axios';
+import Error404 from './Error404.jsx';
 
 const BusquedaJuego = () => 
 {
     const [games, setGames] = useState([]);
     const location = useLocation();
     const searchParam = new URLSearchParams(location.search).get("juego");
+    const history = useNavigate();
     
     useEffect(() => {
         // Realizar la solicitud al servidor para obtener los juegos que coincidan con el parámetro de búsqueda
@@ -21,6 +23,24 @@ const BusquedaJuego = () =>
                 console.error('Error al cargar los juegos:', error);
             });
     }, [searchParam]);
+
+
+    const userRole = localStorage.getItem('Rol');
+
+ 
+    if(!userRole){
+        history('/Login')
+    }
+
+    if(userRole == 1){
+        return (
+            <div className='' style={{ width: '100%', height: '100%', margin: '0px', padding: '0px' }}>
+                <Navbar />
+                <Error404 errorFeo="Tu eres un mortal, no deberias estar aquí" />
+            </div>
+        );
+    }
+
 
     return (
         <div className='' style={{ height: '100%', width: '100%'}}>

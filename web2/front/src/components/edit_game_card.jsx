@@ -10,15 +10,16 @@ import img3 from '../img/img_3.png';
 import img4 from '../img/img_4.png';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import Error404 from '../pages/Error404';
 
 const NewGame_Card = () => {
 
     const location = useLocation();
     const searchParam = new URLSearchParams(location.search).get("id");
     const idUsuario = localStorage.getItem('id');
-
     const navigate = useNavigate();
     const [imagenPerfil, setImagenPerfil] = useState(null);
+    const [estatus, setEstatus] = useState();
     const [categorias, setCategorias] = useState([]);
     const [publishers, setPublishers] = useState([]);
     const [selectedPublisher, setSelectedPublisher] = useState('');
@@ -27,6 +28,7 @@ const NewGame_Card = () => {
         Imagen: imagenPerfil,
         searchedGame: searchParam
     });
+    const [error, setError] = useState(null);
 
 
 
@@ -41,6 +43,7 @@ const NewGame_Card = () => {
                 // Decodificar la imagen después de que los datos del usuario se hayan cargado completamente
                 const decodedImageString = decodeURIComponent(escape(atob(gameDataFromAPI.Imagen)));
                 setImagenPerfil(decodedImageString);
+                setEstatus(gameDataFromAPI.Estatus.data[0]);
 
                 setSelectedCategoria(gameDataFromAPI.ID_Categoria);
                 setSelectedPublisher(gameDataFromAPI.ID_Publicadora);
@@ -77,12 +80,13 @@ const NewGame_Card = () => {
             .then(response => {
                 console.log(response.data);
                 Swal.fire({
-                    title: "¡Juego registrado!",
+                    title: "¡Juego eliminado!",
                     text: "¡Juego eliminado exitosamente!",
                     icon: "success"
                 });
-                //alert('Juego eliminado exitosamente');
-                window.location.reload();
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
             })
             .catch(error => {
                 if (error.response && error.response.status === 400) {
@@ -195,7 +199,9 @@ const NewGame_Card = () => {
                     text: "Juego editado exitosamente, para editarlo de nuevo favor de buscarlo en la barra de navegación",
                     icon: "success"
                 });
-                window.location.reload();
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
             })
             .catch(error => {
                 if (error.response && error.response.status === 400) {
@@ -239,6 +245,23 @@ const NewGame_Card = () => {
     }, []);
 
 
+    if (error) {
+        return (
+            <div className='' style={{ width: '100%', height: '100%', margin: '0px', padding: '0px' }}>
+                <Error404 errorFeo={error} />
+            </div>
+        );
+    }
+
+
+    if(estatus == 0){
+        setError("El juego ha sido eliminado.");
+        return (
+            <div className='' style={{ width: '100%', height: '100%', margin: '0px', padding: '0px' }}>
+                <Error404 errorFeo={error} />
+            </div>
+        );
+    }
 
 
     return (

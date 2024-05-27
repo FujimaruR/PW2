@@ -5,6 +5,8 @@ import axios from 'axios';
 import LabelText from '../components/label_text';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import Error404 from '../pages/Error404';
+
 
 
 const Blackcard_review = ({ id }) => {
@@ -12,6 +14,8 @@ const Blackcard_review = ({ id }) => {
     const [reviewData, setReviewData] = useState([]);
     const [imagenGame, setImagenGame] = useState([]);
     const [idReseña, setIDReseña] = useState({});
+    const [error, setError] = useState(null);
+    
 
 
     useEffect(() => {
@@ -22,8 +26,16 @@ const Blackcard_review = ({ id }) => {
 
                 const decodedImageString = decodeURIComponent(escape(atob(response.data[0].Imagen)));
                 setImagenGame(decodedImageString);
+
+                if (response.data.length === 0) {
+                    setError("No se ha encontrado información de esta reseña.");
+                    return;
+                }
+
+
             } catch (error) {
                 console.error('Error fetching review data:', error);
+                setError('Hubo un error al obtener la información de la reseña.'); 
             }
         };
 
@@ -63,7 +75,13 @@ const Blackcard_review = ({ id }) => {
         }
     };
     
-    
+    if (error) {
+        return (
+            <div className='' style={{ width: '100%', height: '100%', margin: '0px', padding: '0px' }}>
+                <Error404 errorFeo={error} />
+            </div>
+        );
+    }
 
     return (
         <div className='blackcard container mt-3'>
@@ -71,7 +89,7 @@ const Blackcard_review = ({ id }) => {
                 <div className='row mt-3 mb-3' style={{ marginLeft: '5px', marginRight: '5px' }}>
                     <div className='col-md-4'>
                         <img src={imagenGame} className='img-review' />
-                        <p className='text-review mt-2'>Por: <Link to={`/Perfil_user?username=${reviewData[0].Usuario}`} style={{ textDecoration: 'none', color: '#8ac6c2', weight: 'bold' }}>
+                        <p className='text-review mt-2'>Por: <Link to={`/DetallesUsuario?id=${reviewData[0].ID_Usuario}`} style={{ textDecoration: 'none', color: '#8ac6c2', weight: 'bold' }}>
                             {reviewData[0].Usuario}
                         </Link></p>
                         <a href="" className='link-review mt-4'> <Link to={`/CreateReview?id=${reviewData[0].ID_Juego}`} style={{ textDecoration: 'none', color: '#8ac6c2', weight: 'bold' }}>
