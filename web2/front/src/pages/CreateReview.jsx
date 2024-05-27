@@ -54,6 +54,11 @@ const CreateReview = () => {
                     icon: "success"
                 });
                 navigate('/LandingPage');
+                Swal.fire({
+                    title: "¡Reseña registrada!",
+                    text: "Reseña registrada con éxito.",
+                    icon: "success"
+                });
             })
             .catch((error) => {
                 console.error(error);

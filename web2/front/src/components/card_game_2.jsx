@@ -7,6 +7,9 @@ const Card_Game_2  = ({ gamecalif }) =>
 {
     const decodedImageString = decodeURIComponent(escape(atob(gamecalif.Imagen)));
 
+    // Redondear y acortar el promedio de calificaciones a un solo decimal
+    const roundedPromedio = parseFloat(gamecalif.Promedio).toFixed(1);
+
     return(
         <div className='card-game-2-landing mt-4' style={{ width: '100%', height: '100%', marginBottom: '20px' }}>
             <div className='row justify-content-center align-items-center mx-auto'>
@@ -20,7 +23,7 @@ const Card_Game_2  = ({ gamecalif }) =>
                         {gamecalif.Reseña}
                     </p>
                     <div className='d-flex justify-content-center align-items-center' style={{marginBottom: '5px'}}>
-                        <h5 className='basic-text' style={{ fontWeight: '400', margin: '0px' }}>{gamecalif.Valor_Calificacion}</h5>
+                        <h5 className='basic-text' style={{ fontWeight: '400', margin: '0px' }}>{roundedPromedio}</h5>
                         <img src={star} alt="Star" width={'20'} height={'20'} style={{ marginLeft: '5px' }}/>
                     </div>
                 </div>

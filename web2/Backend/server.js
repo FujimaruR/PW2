@@ -413,7 +413,8 @@ app.get("/landingGamesLikes", (req, resp) => {
 });
 
 app.get("/landingGamesCalif", (req, resp) => {
-    db.query("SELECT * FROM vista_juegos_reviews_likes WHERE Valor_Calificacion > 0 ORDER BY Valor_Calificacion DESC LIMIT 3", (err, data) => {
+    //db.query("SELECT * FROM vista_juegos_reviews_likes WHERE Valor_Calificacion > 0 ORDER BY Valor_Calificacion DESC LIMIT 3", (err, data) => {
+    db.query("SELECT *, AVG(Valor_Calificacion) AS Promedio FROM vista_juegos_reviews_likes WHERE Valor_Calificacion > 0 GROUP BY ID_Juego ORDER BY Promedio DESC LIMIT 3", (err, data) => {
         if (err) {
             resp.status(500).json({ error: "Error al obtener los juegos" });
         } else {
