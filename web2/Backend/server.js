@@ -430,7 +430,7 @@ app.get("/landingGamesCalif", (req, resp) => {
 
 app.get("/obtenerResenaUsuarioRe", (req, resp) => {
     const idPr = req.query.id;
-    db.query("SELECT * FROM vista_reviewsusuario WHERE ID_Usuario = ? ORDER BY Fecha_Reseña DESC LIMIT 1", [idPr], (err, data) => {
+    db.query("SELECT * FROM vista_reviewsusuario WHERE ID_Usuario = ? ORDER BY ID_Review DESC LIMIT 1", [idPr], (err, data) => {
         if (err) {
             resp.status(500).json({ error: "Error al obtener la reseña" });
         } else {

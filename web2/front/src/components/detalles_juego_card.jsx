@@ -7,6 +7,7 @@ import Card_Game from './card_game';
 import star from "../img/star.png";
 import '../css/login.css';
 import '../css/detallesJuego.css';
+import Swal from 'sweetalert2';
 
 
 const NewGame_Card = () => {
@@ -85,7 +86,12 @@ const NewGame_Card = () => {
         axios.post('http://localhost:3001/createLista', listData)
             .then((response) => {
                 console.log(response);
-                alert("Lista registrada con éxito.");
+                //alert("Lista registrada con éxito.");
+                Swal.fire({
+                    title: 'Listo!',
+                    text: 'Lista registrada con éxito.',
+                    icon: 'info'
+                });
             })
             .catch((error) => {
                 console.error(error);
@@ -93,7 +99,12 @@ const NewGame_Card = () => {
                     const errorMessage = error.response.data;
                     alert(errorMessage);
                 } else {
-                    alert('Hubo un error al registrar la lista. Por favor, intenta de nuevo más tarde.');
+                    //alert('Hubo un error al registrar la lista. Por favor, intenta de nuevo más tarde.');
+                    Swal.fire({
+                        title: '¡Error!',
+                        text: 'Hubo un error al registrar la lista. Por favor, intenta de nuevo más tarde.',
+                        icon: 'error'
+                    });
                 }
             });
     };
