@@ -58,7 +58,7 @@ const LandingPage = () => {
                 </div>
             </div>
 
-            <div className='col-md-3 d-flex' style={{ padding: '0px',}}>
+            <div className='col-md-3 d-flex' style={{ padding: '0px', margin:'0px', height:'941px'}}>
                 <div className="flex-grow-1">
                     <Sidebar_games gamesCalif={gamesCalif} />
                 </div>
