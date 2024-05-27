@@ -8,6 +8,7 @@ import star from "../img/star.png";
 import '../css/login.css';
 import '../css/detallesJuego.css';
 import Swal from 'sweetalert2';
+import Error404 from '../pages/Error404';
 
 
 const NewGame_Card = () => {
@@ -21,6 +22,7 @@ const NewGame_Card = () => {
     const [gameData, setGameData] = useState({
         searchedGame: searchParam
     });
+    const [error, setError] = useState(null);
 
     const [reviewData, setReviewData] = useState([]);
     const [tipoLista, setTipoLista] = useState([]);
@@ -124,6 +126,10 @@ const NewGame_Card = () => {
         // Hacer la solicitud GET al endpoint para obtener los datos del juego
         axios.get(`http://localhost:3001/DetallesJuego?id=${searchParam}`)
             .then(response => {
+                if (response.data.length === 0) {
+                    setError("No se ha encontrado información de este número de juego.");
+                    return;
+                }
                 // Al recibir los datos, establecerlos en el estado
                 const gameDataFromAPI = response.data[0];
                 setGameData(gameDataFromAPI);
@@ -135,8 +141,18 @@ const NewGame_Card = () => {
             })
             .catch(error => {
                 console.error('Error al obtener la información del juego:', error);
+                setError('Hubo un error al obtener la información del juego.'); 
             });
     }, []);
+
+
+    if (error) {
+        return (
+            <div className='' style={{ width: '100%', height: '100%', margin: '0px', padding: '0px' }}>
+                <Error404 errorFeo={error} />
+            </div>
+        );
+    }
 
 
     return (
