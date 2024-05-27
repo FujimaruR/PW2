@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import Navbar from '../components/navbar';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import '../css/perfilUsuario.css';
 
 
 const PerfilUser = () => {
@@ -155,7 +156,7 @@ const PerfilUser = () => {
                         </div>
                         <div className='col-md-3 text-center mt-2'>
                             <button type='button' name="btn_editar" id="btn_editar" className="btn_submit mx-2" onClick={handleEdit}>Editar</button><br />
-                            <button type='button' name="btn_volver" id="btn_volver" className="btn_submit mx-2" onClick={handleBack}>Volver</button>
+                            <button type='button' name="btn_volver" id="btn_volver" className="btn_submit mt-4 mx-2" onClick={handleBack}>Volver</button>
                         </div>
                     </div>
 
@@ -189,20 +190,30 @@ const PerfilUser = () => {
                                     </Link>
                                 </div>
                             </div>
-                            <div className='col-md-4'>
+                            
                                 {userDataGamesFav.map((game, indexu) => (
-                                    <Img_Card_User key={indexu} game={game} />
+                                    <div className='col-md-4'>
+                                        <Img_Card_User key={indexu} game={game} />
+                                    </div>
                                 ))}
-                            </div>
+                            
                         </div>
 
                         <div className='col-md-12 row section_perfil mt-3'>
                             <h2 className='basic-text fs-4 mt-3'>Reseñas favoritas:</h2>
-                            <div className='col-md-4'>
+                            
+
+                            <div className='container cards-U'>
+                  
                                 {userDataResenasFav.map((gamelike, index) => (
-                                    <Card_Review_User key={index} gamelike={gamelike} />
+                                    <div className='card-U d-flex justify-content-center'>
+                                        <Card_Review_User key={index} gamelike={gamelike} />
+                                    </div>
                                 ))}
+                                
                             </div>
+
+                            
                         </div>
 
                         <div className='col-md-12 row section_perfil mt-3'>

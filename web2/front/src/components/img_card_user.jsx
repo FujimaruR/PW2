@@ -12,7 +12,7 @@ const Img_Card_User = ({ game }) => //componente de registro
     return(
         <div className='img-card-user d-flex mx-auto justify-content-center align-items-center' style={{ marginBottom: '20px'}}>
            <img src={decodedImageString} alt={game.Titulo}
-           style={{ borderRadius: '15px', width: '90%', height: 'auto', marginTop: '10px', marginBottom: '10px' }}/>
+           style={{ borderRadius: '15px', width: '90%', height: 'auto', marginTop: '10px', marginBottom: '10px', minHeight:'200px', minWidth:'100px', maxWidt:'140px', maxHeight:'200px' }}/>
         </div>
     );
 };

@@ -22,7 +22,7 @@ const Card_Review_User  = ({ gamelike }) =>
             <div className='row justify-content-center align-items-center mx-auto' style={{ width: '97%'}}>
                 <div className='col-md-6 mt-2'>
                     <img src={decodedImageString} alt={gamelike.Titulo_Juego}
-                    style={{ width: '90%', height: 'auto', borderRadius:'5px', maxWidth:'150px' }}/>
+                    style={{ width: '90%', height: 'auto', borderRadius:'5px', maxWidth:'150px', minHeight:'150px', minWidth:'100px', maxHeight:'150px' }}/>
                 </div>
                 <div className='col-md-6 mt-3'>
                     <h5 className='basic-text fs-5'>{gamelike.Titulo_Juego}</h5>
