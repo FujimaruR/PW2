@@ -10,6 +10,7 @@ const ListaJuegos = () => {
 
     const [imagenLis, setImagenLis] = useState(null);
     const [userDataGamesLis, setUserDataGamesLis] = useState([]);
+    const [tipoJuego, setTipoJuego] = useState('');
     
     const location = useLocation();
 
@@ -29,6 +30,23 @@ const ListaJuegos = () => {
             .catch(error => {
                 console.error('Error al obtener la información del perfil del usuario:', error);
             });
+
+            if(searchParam == 1){
+                const titulo = 'Favoritos';
+                setTipoJuego(titulo);
+            }
+            if(searchParam == 2){
+                const titulo = 'Terminados';
+                setTipoJuego(titulo);
+            }
+            if(searchParam == 3){
+                const titulo = 'BackLog';
+                setTipoJuego(titulo);
+            }
+            if(searchParam == 4){
+                const titulo = 'Abandonados';
+                setTipoJuego(titulo);
+            }
     }, []);
 
 
@@ -58,7 +76,7 @@ const ListaJuegos = () => {
             <div className='container d-flex justify-content-center' style={{ height: '100%', width: '100%', minHeight: '800px', minWidth: '0px', padding: '0px', marginTop: '1rem' }}>
                 <div className='col-5 fondo-busqueda'>
                     <h1 className='label-text-login mb-0'> Lista de Juegos: </h1>
-                    <h1 className='label-text-login mb-4'> Terminados </h1>
+                    <h1 className='label-text-login mb-4'> {tipoJuego} </h1>
                     <div className='container cards-C'>
 
                         <div className='cards-C d-flex justify-content-center'>
