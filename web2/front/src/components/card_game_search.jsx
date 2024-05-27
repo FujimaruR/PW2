@@ -17,10 +17,10 @@ const Card_Game_Search = ({ game }) => {
     const verMas = `btn_editar_${game.ID_Juego}`;
 
     return (
-        <div className='card-game-admin' style={{ width: '100%', height: '100%', marginBottom: '' }}>
+        <div className='card-game-admin' style={{ width: '100%', height: '100%', marginBottom: '', minHeight:'250px' }}>
             <div className='row justify-content-center align-items-center mx-auto'>
                 <div className='col-md-6 mt-2 justify-content-center align-items-center d-flex'>
-                    <img src={decodedImageString} alt={game.Titulo} style={{ width: '90%', height: 'auto', borderRadius: '5px', maxWidth: '150px' }} />
+                    <img src={decodedImageString} alt={game.Titulo} style={{ width: '90%', height: 'auto', borderRadius: '5px', maxWidth: '150px', minHeight:'150px', maxHeight:'200px' }} />
                 </div>
                 <div className='col-md-6 mt-3'>
                     <h5 className='basic-text fs-5'>{game.Titulo}</h5>

@@ -5,6 +5,7 @@ import Navbar from '../components/navbar';
 import axios from 'axios';
 import Card_Game_Search from '../components/card_game_search';
 import Card_User_Search from '../components/card_user_search';
+import '../css/resultadosBusqueda.css';
 
 const ResultadosBusqueda = () => 
 {
@@ -42,20 +43,44 @@ const ResultadosBusqueda = () =>
                     <Navbar></Navbar>
                 </div>
 
-                <div className='row mt-5 mb-5 d-flex align-items-center justify-content-center' style={{width: '100%', height: '100%', margin: '0px', padding: '0px'}}>
-                <h5 className='basic-text fs-1'>Juegos</h5>
-                {games.map(game => (
-                            <div key={game.ID_Juego} className='card-C d-flex justify-content-center'>
-                                <Card_Game_Search game={game} />
-                            </div>
-                        ))}
-                        <h5 className='basic-text fs-1'>Usuarios</h5>
-                        {users.map(users => (
-                            <div key={users.ID_Usuario} className='card-C d-flex justify-content-center'>
-                                <Card_User_Search users={users} />
-                            </div>
-                        ))}
+                <div className='row mt-5 mb-5 d-flex align-items-top justify-content-center' style={{width: '100%', height: '100%', margin: '0px', padding: '0px'}}>
+                
                     
+                        
+                        <div className='col-5 fondo-busqueda'>
+                            <h1 className='label-text-login mb-4' > Juegos: </h1>
+
+                            <div className='container cards-B '>
+
+                                {games.map(game => (
+                                    
+                                    <div key={game.ID_Juego} className='card-B d-flex justify-content-center'>
+                                        <Card_Game_Search game={game} />
+                                    </div>
+                                
+                                ))}
+                                
+                            </div>
+
+                        </div>
+
+                        <div className='col-5 fondo-busqueda'>
+                            <h1 className='label-text-login mb-4' > Usuarios: </h1>
+
+                            <div className='container cards-B '>
+                                
+                                {users.map(users => (
+                                    <div key={users.ID_Usuario} className='card-B d-flex justify-content-center'>
+                                        <Card_User_Search users={users} />
+                                    </div>
+                                ))}
+                                
+                            </div>
+
+                        </div>
+
+                    
+            
                 </div>
 
 
