@@ -15,7 +15,7 @@ const Card_Game_Lista = ({ game }) => {
 
     const [listData, setListData] = useState({
         id: localStorage.getItem('userId'),
-        idjuego: '',
+        idjuego: game.ID_Juego,
         tipo: new URLSearchParams(location.search).get("Type")
     });
 
@@ -24,21 +24,23 @@ const Card_Game_Lista = ({ game }) => {
     };
 
     const handleDeleteClick = () => {
-        const idGame = game.ID_Juego;
+        /*const idGame = game.ID_Juego;
         const updatedListData = {
             ...listData,
             idjuego: idGame
         };
         setListData(updatedListData);
-        deleteLis(updatedListData);
+        console.log('updatedListData verificar: ', updatedListData);
+        console.log('listData verificar: ', listData);*/
+        deleteLis();
     };
 
     // Generamos un id único para el botón de edición
     const verMas = `btn_editar_${game.ID_Juego}`;
     const eliminarLista = `btn_eliminar_${game.ID_Juego}`;
 
-    const deleteLis = (data) => {
-        axios.post('http://localhost:3001/deleteLista', data)
+    const deleteLis = () => {
+        axios.post('http://localhost:3001/deleteLista', listData)
             .then((response) => {
                 console.log(response);
                 alert("Juego borrado de la lista con éxito.");
