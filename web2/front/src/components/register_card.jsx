@@ -27,16 +27,31 @@ const RegisterCard = () => {
 
         if (!username || !password || !name || !lastName || !dateOfBirth || !correo) {
             setErrorMessage('Por favor, completa todos los campos.');
+                Swal.fire({
+                title: '¡Error!',
+                text: 'Por favor, completa todos los campos.',
+                icon: 'error'
+            });
             return;
         }
 
         if (password.length < 6) {
             setErrorMessage('La contraseña debe tener al menos 6 caracteres.');
+            Swal.fire({
+                title: '¡Error!',
+                text: 'La contraseña debe tener al menos 6 caracteres.',
+                icon: 'error'
+            });
             return;
         }
 
         if (!/[A-Z]/.test(password) || !/\d/.test(password)) {
             setErrorMessage("La contraseña debe contener al menos una mayúscula y un número.");
+            Swal.fire({
+                title: '¡Error!',
+                text: 'La contraseña debe contener al menos una mayúscula y un número.',
+                icon: 'error'
+            });
             return;
         }
 
@@ -44,19 +59,30 @@ const RegisterCard = () => {
         const selectedDate = new Date(dateOfBirth);
         if (selectedDate >= currentDate) {
             setErrorMessage('La fecha de nacimiento debe ser anterior a la fecha actual.');
+            Swal.fire({
+                title: '¡Error!',
+                text: 'La fecha de nacimiento debe ser anterior a la fecha actual.',
+                icon: 'error'
+            });
             return;
         }
 
         if (!correo.includes('@') || !correo.includes('.com')) {
             setErrorMessage('Por favor, introduce un correo electrónico válido.');
+            Swal.fire({
+                title: '¡Error!',
+                text: 'Por favor, introduce un correo electrónico válido.',
+                icon: 'error'
+            });
             return;
         }
 
 
         if (!imagenPerfil) {
+            setErrorMessage('Por favor, selecciona una imagen para el usuario.');
             Swal.fire({
                 title: '¡Error!',
-                text: 'Por favor, selecciona una imagen para el juego.',
+                text: 'Por favor, selecciona una imagen para el usuario.',
                 icon: 'error'
             });
             return;
